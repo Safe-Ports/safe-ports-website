@@ -14,18 +14,26 @@ import {
 import { loginUrl, quickBenefits, trustSignals } from "../data/content.js";
 
 const orbitApps = [
-  { label: "Own Terra Lands", icon: Map, position: "left-[4%] top-[22%]" },
-  { label: "Neighborhoods", icon: Building2, position: "right-[4%] top-[22%]" },
-  { label: "Homes", icon: Home, position: "left-[7%] bottom-[18%]" },
-  { label: "CRM", icon: Users, position: "right-[6%] bottom-[38%]" },
-  { label: "Finanzas", icon: BadgeDollarSign, position: "left-[32%] bottom-[6%]" },
-  { label: "Marketing", icon: Megaphone, position: "right-[16%] top-[7%]" },
-  { label: "Construcción", icon: Hammer, position: "left-[22%] top-[7%]" },
+  { label: "Construcción",    icon: Hammer,         position: "left-[18%]  top-[5%]  w-[220px]" },
+  { label: "Marketing",       icon: Megaphone,      position: "right-[16%] top-[5%]  w-[210px]" },
+  { label: "Own Terra Lands", icon: Map,            position: "left-[0%]   top-[26%] w-[230px]" },
+  { label: "Neighborhoods",   icon: Building2,      position: "right-[0%]  top-[26%] w-[235px]" },
+  { label: "CRM",             icon: Users,          position: "right-[5%]  top-[57%] w-[180px]" },
+  { label: "Homes",           icon: Home,           position: "left-[4%]   top-[59%] w-[180px]" },
+  { label: "Finanzas",        icon: BadgeDollarSign, position: "left-[28%] top-[61%] w-[190px]" },
 ];
+
+function IconTile({ children, className = "" }) {
+  return (
+    <span className={`grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-terra-50 text-terra-700 ${className}`}>
+      {children}
+    </span>
+  );
+}
 
 function EcosystemVisual() {
   return (
-    <div className="relative mx-auto mt-12 min-h-[560px] w-full max-w-[760px] lg:mt-0">
+    <div className="relative mx-auto mt-12 min-h-[700px] w-full max-w-[780px] lg:mt-0">
       <div className="absolute inset-0 rounded-[2rem] bg-grid-soft bg-[size:30px_30px] opacity-70" />
       <div className="absolute inset-5 rounded-[2rem] border border-terra-200/70 bg-white/65 shadow-panel backdrop-blur-2xl" />
       <div className="absolute inset-0 bg-radial-mint" />
@@ -35,14 +43,14 @@ function EcosystemVisual() {
       <div className="absolute left-[16%] top-[16%] h-[68%] w-[68%] rounded-full border border-dashed border-terra-300/70" />
       <div className="absolute left-[29%] top-[28%] h-[42%] w-[42%] rounded-full border border-terra-200" />
 
-      <div className="absolute left-1/2 top-[43%] z-10 w-[250px] -translate-x-1/2 -translate-y-1/2 rounded-[1.75rem] border border-terra-200 bg-terra-950 p-5 text-white shadow-glow sm:w-[290px]">
-        <div className="flex items-center gap-3">
-          <span className="grid h-12 w-12 place-items-center rounded-2xl bg-white text-terra-950">
-            <Network size={22} />
-          </span>
-          <div>
+      <div className="absolute left-1/2 top-[43%] z-10 w-[278px] -translate-x-1/2 -translate-y-1/2 rounded-[1.75rem] border border-terra-200 bg-terra-950 p-5 text-white shadow-glow sm:w-[315px] sm:p-6">
+        <div className="flex items-start gap-4">
+          <IconTile className="bg-white text-terra-950">
+            <Network size={24} strokeWidth={1.9} />
+          </IconTile>
+          <div className="min-w-0">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-terra-200">Core</p>
-            <h3 className="mt-1 text-xl font-semibold leading-tight">Own Terra Ecosystem</h3>
+            <h3 className="mt-1 text-2xl font-semibold leading-tight">Own Terra Ecosystem</h3>
           </div>
         </div>
         <div className="mt-5 grid grid-cols-3 gap-2.5">
@@ -59,20 +67,23 @@ function EcosystemVisual() {
         return (
           <div
             key={app.label}
-            className={`absolute z-20 hidden min-w-[154px] rounded-2xl border border-white bg-white/[0.88] p-2.5 shadow-soft-xl backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:border-terra-200 md:block ${app.position}`}
-            style={{ animation: `float ${5 + index * 0.35}s ease-in-out infinite` }}
+            className={`absolute z-20 hidden rounded-[1.45rem] border border-white bg-white/[0.9] p-3 shadow-soft-xl backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:border-terra-200 md:block ${app.position}`}
+            style={{
+              animation: `float ${5 + index * 0.35}s ease-in-out infinite`,
+              animationDelay: `${index * 0.12}s`,
+            }}
           >
-            <div className="flex items-center gap-2.5">
-              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-terra-50 text-terra-700">
-                <Icon size={17} />
-              </span>
-              <span className="whitespace-nowrap text-sm font-semibold text-graphite-900">{app.label}</span>
+            <div className="flex items-center gap-3">
+              <IconTile>
+                <Icon size={21} strokeWidth={1.9} />
+              </IconTile>
+              <span className="min-w-0 whitespace-nowrap text-[15px] font-semibold text-graphite-900">{app.label}</span>
             </div>
           </div>
         );
       })}
 
-      <div className="absolute bottom-6 left-6 right-6 z-20 rounded-3xl border border-white/70 bg-white/[0.9] p-4 shadow-soft-xl backdrop-blur-xl sm:left-auto sm:right-7 sm:w-[315px]">
+      <div className="absolute bottom-6 left-6 right-6 z-30 rounded-3xl border border-white/70 bg-white/[0.92] p-4 shadow-soft-xl backdrop-blur-xl sm:left-auto sm:right-6 sm:w-[302px]">
         <div className="flex items-center justify-between">
           <span className="text-sm font-semibold text-graphite-950">Actividad del ecosistema</span>
           <CircleDot className="text-terra-500" size={17} />
