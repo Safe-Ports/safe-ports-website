@@ -18,22 +18,24 @@ export default function BenefitsSection() {
           </a>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-5">
           {benefits.map((benefit, index) => {
             const Icon = benefit.icon;
             return (
               <article
                 key={benefit.title}
-                className="surface-card p-6"
+                className="surface-card flex items-start gap-6 p-7"
                 style={{ animationDelay: `${index * 80}ms` }}
               >
-                <span className="grid h-12 w-12 place-items-center rounded-2xl bg-graphite-950 text-white">
-                  <Icon size={22} />
+                <span className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-graphite-950 text-white">
+                  <Icon size={24} />
                 </span>
-                <h3 className="mt-7 text-xl font-semibold tracking-[-0.01em] text-graphite-950">
-                  {benefit.title}
-                </h3>
-                <p className="mt-3 text-sm leading-7 text-graphite-600">{benefit.description}</p>
+                <div>
+                  <h3 className="text-xl font-semibold tracking-[-0.01em] text-graphite-950">
+                    {benefit.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-7 text-graphite-600">{benefit.description}</p>
+                </div>
               </article>
             );
           })}

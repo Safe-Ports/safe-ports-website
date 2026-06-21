@@ -19,7 +19,7 @@ const orbitApps = [
   { label: "Own Terra Lands", icon: Map,            position: "left-[0%]   top-[26%] w-[230px]" },
   { label: "Neighborhoods",   icon: Building2,      position: "right-[0%]  top-[26%] w-[235px]" },
   { label: "CRM",             icon: Users,          position: "right-[5%]  top-[57%] w-[180px]" },
-  { label: "Homes",           icon: Home,           position: "left-[4%]   top-[59%] w-[180px]" },
+  { label: "Properties",      icon: Home,           position: "left-[4%]   top-[59%] w-[180px]" },
   { label: "Finanzas",        icon: BadgeDollarSign, position: "left-[28%] top-[61%] w-[190px]" },
 ];
 
@@ -117,12 +117,11 @@ export default function Hero() {
           </div>
 
           <h1 className="mt-7 text-balance text-4xl font-semibold tracking-[-0.045em] text-graphite-950 sm:text-6xl lg:text-7xl">
-            Construye, administra y escala todo tu negocio inmobiliario desde un solo ecosistema.
+            Construye y escala tu negocio inmobiliario desde un solo ecosistema.
           </h1>
 
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-graphite-600 sm:text-xl">
-            Own Terra conecta lotes, propiedades, construcción, clientes, contratos,
-            finanzas y marketing en una sola plataforma empresarial.
+          <p className="mt-6 max-w-xl text-lg leading-8 text-graphite-600 sm:text-xl">
+            Una plataforma que conecta todo tu equipo, clientes y operación en tiempo real.
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
