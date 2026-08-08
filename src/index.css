@@ -4,6 +4,8 @@
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.button{transition:none}}
 
 /* Portal de acceso para clientes de Own Terra */
+.ownTerraGateway{display:flex;align-items:center;justify-content:space-between;gap:48px;padding:42px 48px;border:1px solid rgba(79,232,205,.25);border-radius:24px;background:linear-gradient(120deg,rgba(79,232,205,.09),rgba(17,24,31,.84))}
+.ownTerraGateway>div{max-width:720px}.ownTerraGateway h2{margin:10px 0 12px}.ownTerraGateway p{margin:0;color:#9ca8b2;line-height:1.7}.ownTerraGateway .button{flex:none}
 .clientAccess{display:grid;grid-template-columns:1.08fr .92fr;align-items:center;gap:64px;padding-top:46px}
 .accessVisual{position:relative;border:1px solid rgba(255,255,255,.13);border-radius:18px;padding:52px 22px 22px;background:linear-gradient(145deg,rgba(31,207,176,.09),rgba(124,157,255,.05));box-shadow:0 30px 80px rgba(0,0,0,.34);overflow:hidden}
 .accessVisual>span{position:absolute;top:20px;left:64px;color:#91a0aa;font:500 10px 'IBM Plex Mono';letter-spacing:.08em}
@@ -21,7 +23,7 @@
 .accessHelp{display:inline-flex;align-items:center;gap:7px;color:#9ca8b2;font-size:13px;padding:14px 0}
 .accessHelp:hover{color:#4fe8cd}
 .accessHelp svg{width:15px}
-@media(max-width:850px){.clientAccess{grid-template-columns:1fr;gap:38px}.accessVisual{order:2}.accessCopy{order:1}}
+@media(max-width:850px){.ownTerraGateway{align-items:flex-start;flex-direction:column;padding:32px 24px}.clientAccess{grid-template-columns:1fr;gap:38px}.accessVisual{order:2}.accessCopy{order:1}}
 
 /* Video de muestra de Own Terra */
 .demoSection{padding-top:26px;text-align:center}
