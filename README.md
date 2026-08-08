@@ -1,8 +1,8 @@
-# Own Terra Website
+# Safe Ports Website
 
-Landing oficial de Own Terra Ecosystems, separada de `own-terra-frontend` y `own-terra-backend`.
+Landing corporativa de Safe Ports y portal público de acceso para clientes de Own Terra.
 
-Own Terra Ecosystems es una plataforma SaaS empresarial para centralizar el ciclo completo de una empresa inmobiliaria: lotes, propiedades, desarrollos, clientes, contratos, cobranza, finanzas, construcción, marketing y analítica.
+Own Terra es el producto inmobiliario insignia de Safe Ports. El acceso a la aplicación se configura al construir el sitio mediante una variable de entorno.
 
 ## Stack
 
@@ -30,9 +30,11 @@ npm run dev
 ## Producción
 
 ```bash
-npm run build
+VITE_OWN_TERRA_URL=https://app.example.com npm run build
 npm run preview
 ```
+
+`VITE_OWN_TERRA_URL` habilita el botón del portal de clientes. Si no está definida, la página muestra el acceso como pendiente y evita enviar al usuario a un enlace incompleto.
 
 ## Deploy
 
