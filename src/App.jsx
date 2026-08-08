@@ -24,7 +24,7 @@ const Brand=()=> <a className="brand" href="#top"><span className="mark"><i/></s
 
 export default function App(){
   const [lang,setLang]=useState("es"),[menu,setMenu]=useState(false); const t=text[lang];
-  const ownTerraUrl=import.meta.env.VITE_OWN_TERRA_URL?.trim();
+  const ownTerraUrl=import.meta.env.VITE_OWN_TERRA_URL?.trim()||"https://dev.own-terra.com/";
   const asset=(path)=>`${import.meta.env.BASE_URL}${path.replace(/^\//,"")}`;
   function submit(e){e.preventDefault();const data=new FormData(e.currentTarget);const subject=encodeURIComponent(`Contacto web · ${data.get("company")||data.get("name")}`);const body=encodeURIComponent(`${data.get("message")}\n\n${data.get("name")}\n${data.get("company")||""}\n${data.get("email")}`);window.location.href=`mailto:safeports.contacto@gmail.com?subject=${subject}&body=${body}`}
   return <div className="site">
