@@ -41,3 +41,6 @@ Si elegimos `getsafeports.com`, podríamos utilizar:
 Nuestra primera opción es **getsafeports.com**. Como alternativas, recomendamos **safeportssoftware.com** y **safeportstech.com**.
 
 La consulta preliminar se realizó contra el registro de dominios `.com`. La disponibilidad y el precio definitivo deben confirmarse inmediatamente antes de comprar, porque pueden cambiar. También es importante revisar el precio de renovación anual y no solamente la promoción del primer año.
+
+###
+correo provisional de contacto safeports.contacto@gmail.com
