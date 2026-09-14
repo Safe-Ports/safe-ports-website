@@ -1,47 +1,528 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowRight, Check, LogIn, Menu, ShieldCheck, X } from "lucide-react";
+import { getPublicProduct, publicProducts } from "./data/publicProducts";
 
 const text = {
   es: {
-    locale:"English", nav:["Ecosistema","Producto","Principios","Acceso clientes"], contact:"Contacto", access:"Ingresar a Own Terra", eyebrow:"Con base en México · Operamos en México y EE. UU.",
-    title:"El sistema operativo para", accent:"empresas inmobiliarias.", intro:"Own Terra centraliza lotificación, propiedades, CRM, contratos, cobranza y finanzas de tu operación inmobiliaria en una sola plataforma — hecha para operaciones reales en México y Estados Unidos.", primary:"Conoce el ecosistema", secondary:"Hablemos", built:"Diseñado para", sectors:["Lotificadoras","Fraccionamientos","Desarrolladoras","Inmobiliarias"],
-    serviceTag:"El ecosistema", serviceTitle:"Un ecosistema, no una suite de parches.", serviceNote:"Cada aplicación vive en su propio espacio, conectada a la misma fuente de datos.", statusOn:"Activo", statusSoon:"Próximamente",
-    services:[["OwnTerra Lands","Lotificación, trazo y subdivisión de terrenos con planos topográficos y control de preventas.",["Planos DWG/PDF","Compraventa","Enganches"],"Explorar Lands"],["OwnTerra Properties","Administración de propietarios, inmuebles y unidades rentables desde un solo espacio operativo.",["Propietarios","Propiedades","Unidades"],"Explorar Properties"],["OwnTerra Construction","Seguimiento de obra para desarrollos habitacionales: avances, bitácora y proveedores.",["Bitácora de obra","Avances","Proveedores"],"Ver Construction"]],
-    workTag:"Cómo funciona",workTitle:"Toda tu operación, en un solo sistema.",workBody:"Own Terra conecta inventario de lotes y propiedades, CRM, contratos, cobranza y finanzas en una plataforma pensada para operaciones inmobiliarias reales.", bullets:["Lotes, propiedades y desarrollos en un solo sistema","Pipeline comercial desde el prospecto hasta el contrato","Pagos, saldos y flujo de caja por proyecto","Experiencias web y móvil para equipos en campo"], build:"Agenda una demo", ready:"PRODUCTO LISTO",
-    cards:[["Ventas e inventario","Lotes, disponibilidad, clientes y seguimiento centralizados."],["Contratos y cobranza","Una ruta operativa clara desde la firma hasta el pago."],["Un ecosistema conectado","Web, móvil y automatización con una sola fuente de verdad."]], cardTags:["LOTES","CONTRATOS","ECOSISTEMA"],
-    why:"Por qué Own Terra", whyTitle:"Seguridad y velocidad — para tu operación.", principles:[["01","Seguridad primero","Infraestructura segura, control de acceso por rol y respaldo continuo de tu información."],["02","Automatización útil","Cálculo de comisiones, recordatorios de cobranza y reportes que se generan solos."],["03","Hecho para crecer","Se adapta a una lotificadora, un fraccionamiento o varias organizaciones a la vez."],["04","Soporte cercano","Un equipo que conoce tu operación y responde cuando lo necesitas."]],
-    discoverTag:"Explora el ecosistema",discoverTitle:"Conoce todo lo que Own Terra puede hacer por tu operación.",discoverBody:"Descubre sus soluciones para inventario, ventas, clientes, contratos, cobranza y finanzas.",discoverCta:"Entrar al ecosistema",accessTag:"Portal de clientes",accessTitle:"Tu operación inmobiliaria, en un solo lugar.",accessBody:"Ingresa a tu cuenta para consultar clientes, inventario, contratos, cobranza y documentos.",accessSecure:"Acceso seguro y exclusivo para organizaciones registradas",accessHelp:"¿Necesitas ayuda para entrar?",contactTitle:"Hablemos de tu operación.",contactBody:"Cuéntanos de tu equipo y tu operación inmobiliaria — te mostramos cómo Own Terra puede ayudarte. Respondemos en menos de un día hábil.",labels:["Nombre","Empresa","Correo","Mensaje"],send:"Enviar mensaje",sent:"Mensaje recibido. Nos pondremos en contacto pronto.",emailCta:"Escríbenos",footer:"Ecosistema operativo para empresas inmobiliarias · México y Estados Unidos"
+    locale: "English",
+    nav: ["El ciclo", "Ecosistema", "Cómo funciona", "Acceso"],
+    contact: "Solicitar demo",
+    access: "Ingresar a Own Terra",
+    accessPending: "Solicitar acceso",
+    eyebrow: "From land to living.",
+    title: "Todo el ciclo inmobiliario.",
+    accent: "Una sola plataforma.",
+    intro: "Desde el terreno hasta la propiedad terminada. Own Terra conecta adquisición, ventas, construcción, administración, renta y comercialización en un solo ecosistema.",
+    primary: "Ver el ciclo completo",
+    secondary: "Solicitar demo",
+    built: "Para equipos de",
+    sectors: ["Lotificación", "Construcción", "Administración", "Rentas", "Comercialización"],
+    cycleTag: "El ciclo completo",
+    cycleTitle: "Un activo, seis momentos, un solo sistema.",
+    cycleBody: "Own Terra es la infraestructura digital que acompaña un activo inmobiliario durante todo su ciclo de vida. Cada etapa muestra su estado real de producto, no la intención.",
+    cycleStages: [
+      ["01", "Terreno", "Adquisición, lotificación y comercialización de tierra.", "lands"],
+      ["02", "Construcción", "Proyecto, avance de obra, costos y documentos.", "construction"],
+      ["03", "Propiedad", "Inventario, unidades y entrega del activo construido.", "properties"],
+      ["04", "Operación", "Administración, cuotas, servicios y amenidades.", "properties"],
+      ["05", "Renta", "Contratos, inquilinos y cobranza recurrente.", "properties"],
+      ["06", "Venta", "Comercialización y portales de la propiedad terminada.", "properties"],
+    ],
+    mobileTag: "En el teléfono",
+    mobileTitle: "La operación no se queda en la oficina.",
+    mobileBody: "El asesor revisa inventario, agenda y clientes desde el mismo ecosistema, con la sesión y los permisos de su organización. Lo que cambia en campo ya está en el escritorio.",
+    mobileState: "Cliente móvil en beta",
+    mobileNote: "La aplicación móvil acompaña a Lands y todavía no está publicada en App Store ni en Google Play. El acceso se coordina con tu organización.",
+    mobileCta: "Solicitar acceso a la beta",
+    mobileShots: ["Inicio y pendientes del día", "Track de lotes", "Proyectos y planos"],
+    cycleBaseTag: "Capa transversal",
+    cycleBase: ["Clientes", "Documentos", "Finanzas", "Comunicación", "Datos"],
+    serviceTag: "El ecosistema",
+    serviceTitle: "Una plataforma compartida, dos verticales principales.",
+    serviceNote: "Lands y Properties comparten organización, sesión, clientes, permisos y servicios de Core. Finanzas es una vista transversal en evolución; Construction permanece como exploración.",
+    workTag: "Cómo funciona",
+    workTitle: "El activo y su operación conservan el mismo contexto.",
+    workBody: "Core concentra identidad, organización, equipo, agenda, clientes, formularios y documentos. Lands y Properties añaden sus flujos de dominio, mientras Finanzas conserva la procedencia de cada movimiento.",
+    bullets: [
+      "Lands conecta fraccionamientos, lotes, clientes, contratos y cobranza",
+      "Properties usa la jerarquía Organización → Propiedad → Unidad/Espacio",
+      "Una sola sesión y permisos por aplicación",
+      "Estados de producto transparentes: aplicación, vista previa o exploración",
+    ],
+    build: "Solicitar una demo",
+    ready: "ESTADO REAL DEL PRODUCTO",
+    cards: [
+      ["Core compartido", "Organización, identidad, equipo, agenda, clientes y documentos en un contexto común."],
+      ["Lands", "Flujo comercial de terrenos desde el inventario hasta contratos, pagos y reportes."],
+      ["Properties", "Vista previa funcional para portafolios, comunidades, rentas y operación por unidad."],
+    ],
+    cardTags: ["CORE", "APLICACIÓN WEB", "VISTA PREVIA"],
+    why: "Principios del producto",
+    whyTitle: "Claridad sobre acceso, alcance y madurez.",
+    principles: [
+      ["01", "Aislamiento por organización", "Los datos y permisos se resuelven dentro del contexto de la organización del usuario."],
+      ["02", "Una sola identidad", "Core comparte sesión, clientes y servicios comunes entre las verticales habilitadas."],
+      ["03", "Inventario con contexto", "Cada flujo conserva la relación entre activo, cliente, documento y evento financiero."],
+      ["04", "Alcance transparente", "Las vistas demo y los conceptos exploratorios se identifican antes de una conversación comercial."],
+    ],
+    discoverTag: "Explora el ecosistema",
+    discoverTitle: "Empieza por la operación que necesitas resolver.",
+    discoverBody: "Elige Lands si vendes terrenos y lotes, o Properties si administras, operas o rentas inmuebles.",
+    discoverCta: "Comparar soluciones",
+    accessTag: "Acceso para clientes",
+    accessTitle: "Tu organización, aplicaciones y permisos en una sola sesión.",
+    accessBody: "Los clientes con una cuenta asignada ingresan a la aplicación autenticada. El sitio público no almacena datos operativos ni funciona como portal.",
+    accessSecure: "Acceso controlado por organización, aplicación, rol y permisos",
+    accessHelp: "¿Necesitas ayuda para entrar?",
+    contactTitle: "Cuéntanos qué operación necesitas ordenar.",
+    contactBody: "Comparte el tipo y tamaño de tu operación, las herramientas que utilizas y tu principal problema. Te contactaremos para revisar si Own Terra encaja.",
+    labels: ["Nombre", "Empresa", "Correo", "Tipo de operación", "Tamaño del inventario o portafolio", "Herramientas actuales", "Principal problema operativo"],
+    operationOptions: ["Selecciona una opción", "Venta de terrenos o lotes", "Administración de propiedades", "Comunidades o condominios", "Rentas de largo plazo", "Hospedaje", "Operación mixta"],
+    sizeOptions: ["Selecciona un rango", "1–20 activos", "21–100 activos", "101–500 activos", "Más de 500 activos", "Aún por definir"],
+    send: "Preparar correo",
+    emailCta: "Escríbenos directamente",
+    footer: "Ecosistema operativo para empresas inmobiliarias",
   },
   en: {
-    locale:"Español", nav:["Ecosystem","Product","Principles","Client access"], contact:"Contact", access:"Open Own Terra", eyebrow:"Based in Mexico · Operating in Mexico & the US", title:"The operating system for", accent:"real-estate companies.", intro:"Own Terra centralizes land sales, properties, CRM, contracts, collections and finance for your real-estate operation in one platform — built for real operations in Mexico and the United States.", primary:"Explore the ecosystem", secondary:"Talk to us", built:"Built for", sectors:["Land developers","Subdivisions","Homebuilders","Real-estate firms"],
-    serviceTag:"The ecosystem",serviceTitle:"One ecosystem, not a patchwork of tools.",serviceNote:"Every app lives in its own space, connected to the same source of data.",statusOn:"Active",statusSoon:"Coming soon",services:[["OwnTerra Lands","Land subdivision, surveying and lot tracking with topographic plans and pre-sale control.",["DWG/PDF plans","Sales","Down payments"],"Explore Lands"],["OwnTerra Properties","Manage owners, properties and rental units from one operational space.",["Owners","Properties","Units"],"Explore Properties"],["OwnTerra Construction","Build tracking for housing developments: progress, daily log and vendors.",["Daily log","Progress","Vendors"],"View Construction"]],
-    workTag:"How it works",workTitle:"Your whole operation, one system.",workBody:"Own Terra connects lot and property inventory, CRM, contracts, collections and finance in a platform built for real real-estate operations.",bullets:["Lots, properties and developments in one system","Commercial pipeline from lead to signed contract","Payments, balances and cash flow by project","Web and mobile experiences for teams in the field"],build:"Book a demo",ready:"PRODUCT READY",cards:[["Sales & inventory","Centralized lots, availability, clients and follow-up."],["Contracts & collections","A clear operational trail from signature to payment."],["One connected ecosystem","Web, mobile and automation sharing one source of truth."]],cardTags:["LOTS","CONTRACTS","ECOSYSTEM"],
-    why:"Why Own Terra",whyTitle:"Security and speed — for your operation.",principles:[["01","Security first","Secure infrastructure, role-based access and continuous backup of your data."],["02","Useful automation","Commission calculations, collection reminders and reports that build themselves."],["03","Built to grow","Fits one land developer, one subdivision, or several organizations at once."],["04","Close support","A team that knows your operation and answers when you need it."]],discoverTag:"Explore the ecosystem",discoverTitle:"Discover everything Own Terra can do for your operation.",discoverBody:"Explore solutions for inventory, sales, clients, contracts, collections and finance.",discoverCta:"Enter the ecosystem",accessTag:"Client portal",accessTitle:"Your real-estate operation, all in one place.",accessBody:"Sign in to manage clients, inventory, contracts, collections, and documents.",accessSecure:"Secure access for registered organizations only",accessHelp:"Need help signing in?",contactTitle:"Let’s talk about your operation.",contactBody:"Tell us about your team and your real-estate operation — we’ll show you how Own Terra can help. We respond within one business day.",labels:["Name","Company","Email","Message"],send:"Send message",sent:"Message received. We’ll be in touch shortly.",emailCta:"Email us",footer:"Operating ecosystem for real-estate companies · Mexico & United States"
-  }
+    locale: "Español",
+    nav: ["The cycle", "Ecosystem", "How it works", "Sign in"],
+    contact: "Request a demo",
+    access: "Open Own Terra",
+    accessPending: "Request access",
+    eyebrow: "From land to living.",
+    title: "The whole real-estate cycle.",
+    accent: "One single platform.",
+    intro: "From raw land to the finished property. Own Terra connects acquisition, sales, construction, administration, rental, and commercialization in one ecosystem.",
+    primary: "See the full cycle",
+    secondary: "Request a demo",
+    built: "For teams in",
+    sectors: ["Land subdivision", "Construction", "Management", "Rentals", "Commercialization"],
+    cycleTag: "The full cycle",
+    cycleTitle: "One asset, six moments, one system.",
+    cycleBody: "Own Terra is the digital infrastructure that follows a real-estate asset through its entire life cycle. Each stage shows its real product state, not the intention.",
+    cycleStages: [
+      ["01", "Land", "Acquisition, subdivision, and land sales.", "lands"],
+      ["02", "Construction", "Project, site progress, costs, and documents.", "construction"],
+      ["03", "Property", "Inventory, units, and handover of the built asset.", "properties"],
+      ["04", "Operations", "Administration, dues, services, and amenities.", "properties"],
+      ["05", "Rental", "Leases, tenants, and recurring collection.", "properties"],
+      ["06", "Sale", "Commercialization and portals for the finished property.", "properties"],
+    ],
+    mobileTag: "On the phone",
+    mobileTitle: "The operation does not stay at the office.",
+    mobileBody: "Advisors check inventory, calendar, and clients from the same ecosystem, with their organization's session and permissions. What changes in the field is already on the desktop.",
+    mobileState: "Mobile client in beta",
+    mobileNote: "The mobile app accompanies Lands and is not published on the App Store or Google Play yet. Access is arranged with your organization.",
+    mobileCta: "Request beta access",
+    mobileShots: ["Home and daily tasks", "Lot tracking", "Projects and site plans"],
+    cycleBaseTag: "Cross-cutting layer",
+    cycleBase: ["Clients", "Documents", "Finance", "Communication", "Data"],
+    serviceTag: "The ecosystem",
+    serviceTitle: "One shared platform, two main verticals.",
+    serviceNote: "Lands and Properties share organization, session, clients, permissions, and Core services. Finance is an evolving cross-platform view; Construction remains exploratory.",
+    workTag: "How it works",
+    workTitle: "The asset and its operation keep the same context.",
+    workBody: "Core owns identity, organization, team, calendar, clients, forms, and documents. Lands and Properties add domain workflows, while Finance preserves the source of each transaction.",
+    bullets: [
+      "Lands connects developments, lots, clients, contracts, and collections",
+      "Properties uses Organization → Property → Unit/Space",
+      "One session with application-level permissions",
+      "Transparent product states: application, preview, or exploration",
+    ],
+    build: "Request a demo",
+    ready: "CURRENT PRODUCT STATUS",
+    cards: [
+      ["Shared Core", "Organization, identity, team, calendar, clients, and documents in one shared context."],
+      ["Lands", "Land-sales workflow from inventory through contracts, payments, and reporting."],
+      ["Properties", "Functional preview for portfolios, communities, rentals, and unit-level operations."],
+    ],
+    cardTags: ["CORE", "WEB APPLICATION", "FUNCTIONAL PREVIEW"],
+    why: "Product principles",
+    whyTitle: "Clarity about access, scope, and maturity.",
+    principles: [
+      ["01", "Organization isolation", "Data and permissions are resolved inside the user's organization context."],
+      ["02", "One identity", "Core shares session, clients, and common services across enabled verticals."],
+      ["03", "Contextual inventory", "Each workflow preserves the connection among asset, client, document, and financial event."],
+      ["04", "Transparent scope", "Demo views and exploratory concepts are identified before a commercial conversation."],
+    ],
+    discoverTag: "Explore the ecosystem",
+    discoverTitle: "Start with the operation you need to solve.",
+    discoverBody: "Choose Lands if you sell land and lots, or Properties if you manage, operate, or rent properties.",
+    discoverCta: "Compare solutions",
+    accessTag: "Customer access",
+    accessTitle: "Your organization, applications, and permissions in one session.",
+    accessBody: "Customers with an assigned account sign in to the authenticated application. This public site does not store operational data or act as a customer portal.",
+    accessSecure: "Access controlled by organization, application, role, and permissions",
+    accessHelp: "Need help signing in?",
+    contactTitle: "Tell us which operation you need to organize.",
+    contactBody: "Share your operation type and size, the tools you use, and your main challenge. We will contact you to assess whether Own Terra is a fit.",
+    labels: ["Name", "Company", "Email", "Operation type", "Inventory or portfolio size", "Current tools", "Main operational challenge"],
+    operationOptions: ["Select an option", "Land or lot sales", "Property management", "Communities or condominiums", "Long-term rentals", "Hospitality", "Mixed operation"],
+    sizeOptions: ["Select a range", "1–20 assets", "21–100 assets", "101–500 assets", "More than 500 assets", "Not defined yet"],
+    send: "Prepare email",
+    emailCta: "Email us directly",
+    footer: "Operating ecosystem for real-estate businesses",
+  },
 };
-const hubApps=[["Lands","/icons/app-lands.png"],["Properties","/icons/app-properties.png"],["Construction","/icons/app-construction.png"]];
-const ecosystemMeta=[
-  {icon:"/icons/app-lands.png",accent:"#4fe8cd",status:"on",handle:"terra.lands",landing:"/lands.html",video:"/videos/own-terra-demo.mp4",poster:"/videos/own-terra-demo-poster.jpg"},
-  {icon:"/icons/app-properties.png",accent:"#7c9dff",status:"on",handle:"terra.properties",landing:"/properties.html",video:"/videos/ownterra_properties.mp4",poster:"/videos/ownterra-properties-poster.jpg"},
-  {icon:"/icons/app-construction.png",accent:"#e8bd3f",status:"on",handle:"terra.construct",landing:"/construction.html",video:"/videos/own-terra-Constructions.mp4",poster:"/videos/own-terra-construction-poster.jpg"},
-];
-const Brand=()=> <a className="brand" href="#top"><span className="mark"><i/></span><b>OWN TERRA</b></a>;
-const HubMiniGrid=({asset})=> <div className="hubMiniGrid">{hubApps.map(([name,icon])=><div key={name} className="hubMiniCard"><img src={asset(icon)} alt={name}/><span>{name}</span></div>)}</div>;
 
-export default function App(){
-  const [lang,setLang]=useState("es"),[menu,setMenu]=useState(false); const t=text[lang];
-  const asset=(path)=>`${import.meta.env.BASE_URL}${path.replace(/^\//,"")}`;
-  function submit(e){e.preventDefault();const data=new FormData(e.currentTarget);const subject=encodeURIComponent(`Contacto web · ${data.get("company")||data.get("name")}`);const body=encodeURIComponent(`${data.get("message")}\n\n${data.get("name")}\n${data.get("company")||""}\n${data.get("email")}`);window.location.href=`mailto:safeports.contacto@gmail.com?subject=${subject}&body=${body}`}
-  return <div className="site">
-    <header className="nav"><Brand/><button className="menu" onClick={()=>setMenu(!menu)} aria-label="Menú" aria-expanded={menu}>{menu?<X/>:<Menu/>}</button><nav className={menu?"links open":"links"}>{t.nav.map((x,i)=><a key={x} href={["#services","#work","#principles","#client-access"][i]} onClick={()=>setMenu(false)}>{x}</a>)}<button onClick={()=>setLang(lang==="es"?"en":"es")}>{t.locale}</button><a className="navCta" href="#contact">{t.contact}</a></nav></header>
-    <main id="top">
-      <section className="hero shell"><div className="eyebrow"><span/>{t.eyebrow}</div><h1>{t.title}<br/><em>{t.accent}</em></h1><p>{t.intro}</p><div className="actions"><a className="button primary" href="#work">{t.primary}<ArrowRight/></a><a className="button ghost" href="#contact">{t.secondary}</a></div><div className="trust"><small>{t.built}</small>{t.sectors.map(x=><span key={x}>{x}</span>)}</div></section>
-      <section className="section shell" id="services"><header><small>{t.serviceTag}</small><h2>{t.serviceTitle}</h2><p>{t.serviceNote}</p></header><div className="ecoList">{t.services.map(([name,desc,tags,cta],i)=>{const m=ecosystemMeta[i];const href=m.landing;return <article key={name} className="ecoCard" style={{"--eco":m.accent}}><div className="ecoText"><div className="ecoTop"><a className="ecoIcon" href={href} aria-label={`${cta}: ${name}`}><img src={asset(m.icon)} alt=""/></a><span className="ecoStatus">{t.statusOn}</span></div><h3>{name}</h3><p className="ecoHandle">{m.handle}</p><p className="ecoDesc">{desc}</p><div className="ecoTags">{tags.map(tg=><span key={tg}>{tg}</span>)}</div><a className="ecoCta" href={href}>{cta}<ArrowRight/></a></div><a className="ecoMedia" href={href} aria-label={`${cta}: ${name}`}>{m.video?<video className="ecoVideo" autoPlay muted loop playsInline preload="metadata" poster={asset(m.poster)} aria-hidden="true"><source src={asset(m.video)} type="video/mp4"/></video>:<div className="ecoMediaIcon"><img src={asset(m.icon)} alt=""/></div>}</a></article>})}</div></section>
-      <section className="section shell work" id="work"><div className="workCopy"><small>{t.workTag}</small><h2>{t.workTitle}</h2><p>{t.workBody}</p><ul>{t.bullets.map(x=><li key={x}><Check/>{x}</li>)}</ul><a className="button outline" href="#contact">{t.build}<ArrowRight/></a></div><a className="window hubWindow" href="/hub.html"><div className="bar"><i/><i/><i/><span>own-terra.com/hub</span></div><div className="product"><div><b>OWN TERRA · Hub</b><span>{t.ready}</span></div><HubMiniGrid asset={asset}/><div className="hubMiniFoot">{t.discoverCta}<ArrowRight/></div></div></a><div className="caseGrid">{t.cards.map(([a,b],i)=><article key={a}><span>{t.cardTags[i]}</span><h3>{a}</h3><p>{b}</p></article>)}</div></section>
-      <section className="section shell ownTerraGateway"><div><small>{t.discoverTag}</small><h2>{t.discoverTitle}</h2><p>{t.discoverBody}</p></div><a className="button primary" href="/hub.html">{t.discoverCta}<ArrowRight/></a></section>
-      <section className="section shell clientAccess" id="client-access"><div className="accessVisual"><div className="accessShield"><ShieldCheck/></div><span>OWN TERRA · ACCESO SEGURO</span><HubMiniGrid asset={asset}/></div><div className="accessCopy"><small>{t.accessTag}</small><h2>{t.accessTitle}</h2><p>{t.accessBody}</p><div className="secureNote"><ShieldCheck/>{t.accessSecure}</div><a className="button primary accessButton" href="/hub.html">{t.access}<LogIn/></a><a className="accessHelp" href="mailto:safeports.contacto@gmail.com">{t.accessHelp} <ArrowRight/></a></div></section>
-      <section className="section shell" id="principles"><div className="principle"><header><small>{t.why}</small><h2>{t.whyTitle}</h2></header><div className="principleGrid">{t.principles.map(([n,a,b])=><article key={n}><span>{n}</span><h3>{a}</h3><p>{b}</p></article>)}</div></div></section>
-      <section className="section shell contact" id="contact"><div><small>{t.contact}</small><h2>{t.contactTitle}</h2><p>{t.contactBody}</p><a href="mailto:safeports.contacto@gmail.com">{t.emailCta}</a><span>México · United States</span></div><form onSubmit={submit}><div className="fieldRow"><label>{t.labels[0]}<input required name="name" autoComplete="name"/></label><label>{t.labels[1]}<input name="company" autoComplete="organization"/></label></div><label>{t.labels[2]}<input required type="email" name="email" autoComplete="email"/></label><label>{t.labels[3]}<textarea required name="message" rows="5"/></label><button className="button primary">{t.send}<ArrowRight/></button></form></section>
-    </main><footer><Brand/><span>© 2026</span><p>{t.footer}</p></footer>
-  </div>
+
+const Brand = () => (
+  <a className="lx-brand" href="#top">
+    <span className="lx-brandMark">
+      <img className="lx-markInk" src={`${import.meta.env.BASE_URL}brand/ownterra-mark-ink.png`} alt="" />
+      <img className="lx-markLight" src={`${import.meta.env.BASE_URL}brand/ownterra-mark-light.png`} alt="" />
+    </span>
+    <b>Own Terra</b>
+  </a>
+);
+
+/* Observa los bloques y los deja aparecer una sola vez al entrar en pantalla. */
+function useReveal() {
+  useEffect(() => {
+    const nodes = document.querySelectorAll(".reveal");
+    if (!("IntersectionObserver" in window)) {
+      nodes.forEach((n) => n.classList.add("is-in"));
+      return undefined;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-in");
+          io.unobserve(entry.target);
+        });
+      },
+      { rootMargin: "0px 0px -12% 0px", threshold: 0.08 },
+    );
+    nodes.forEach((n) => io.observe(n));
+    return () => io.disconnect();
+  }, []);
+}
+
+/* La barra va encima del video hasta que el usuario deja atrás la portada. */
+function useNavOverCover() {
+  const [over, setOver] = useState(true);
+  useEffect(() => {
+    const onScroll = () => setOver(window.scrollY < window.innerHeight * 0.78);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  return over;
+}
+
+export default function App() {
+  const [lang, setLang] = useState("es");
+  const [menu, setMenu] = useState(false);
+  const t = text[lang];
+  const asset = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;
+  const configuredAppUrl = import.meta.env.VITE_OWN_TERRA_URL?.trim();
+  const navOver = useNavOverCover();
+  useReveal();
+
+
+  function submit(event) {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const subject = encodeURIComponent(`Demo Own Terra · ${data.get("company") || data.get("name")}`);
+    const body = encodeURIComponent([
+      data.get("challenge"),
+      "",
+      `${t.labels[0]}: ${data.get("name")}`,
+      `${t.labels[1]}: ${data.get("company") || "—"}`,
+      `${t.labels[2]}: ${data.get("email")}`,
+      `${t.labels[3]}: ${data.get("operation")}`,
+      `${t.labels[4]}: ${data.get("portfolioSize")}`,
+      `${t.labels[5]}: ${data.get("tools") || "—"}`,
+    ].join("\n"));
+    window.location.href = `mailto:safeports.contacto@gmail.com?subject=${subject}&body=${body}`;
+  }
+
+  return (
+    <div className="lx-site">
+      <header className={`lx-nav${navOver && !menu ? " is-over" : ""}`}>
+        <Brand />
+        <button
+          className="lx-menu"
+          onClick={() => setMenu(!menu)}
+          aria-label={lang === "es" ? "Menú" : "Menu"}
+          aria-expanded={menu}
+        >
+          {menu ? <X /> : <Menu />}
+        </button>
+        <nav className={menu ? "lx-links is-open" : "lx-links"}>
+          {t.nav.map((item, index) => (
+            <a
+              key={item}
+              href={["#ciclo", "#services", "#work", "#client-access"][index]}
+              onClick={() => setMenu(false)}
+            >
+              {item}
+            </a>
+          ))}
+          <button className="lx-lang" onClick={() => setLang(lang === "es" ? "en" : "es")}>{t.locale}</button>
+          <a className="lx-navCta" href="#contact">{t.contact}</a>
+        </nav>
+      </header>
+
+      <main id="top">
+        {/* Portada a sangre: imagen real de inmuebles, no una pantalla de producto. */}
+        <section className="lx-cover">
+          <div className="lx-coverMedia">
+            {/* Fotografía limpia: el video de marca trae texto y logotipo
+                incrustados y competía con el titular. */}
+            <picture>
+              <source srcSet={asset("/hero-residence.webp")} type="image/webp" />
+              <img src={asset("/hero-residence.jpg")} alt="" fetchPriority="high" />
+            </picture>
+          </div>
+          <div className="lx-coverInner lx-gutter">
+            <p className="lx-coverEyebrow">{t.eyebrow}</p>
+            <h1 className="lx-coverTitle">{t.title}<em>{t.accent}</em></h1>
+            <p className="lx-coverIntro">{t.intro}</p>
+            <div className="lx-coverActions">
+              <a className="lx-btn lx-btn--solid" href="#ciclo">{t.primary}<ArrowRight /></a>
+              <a className="lx-btn lx-btn--line" href="#contact">{t.secondary}</a>
+            </div>
+          </div>
+          <div className="lx-coverStrip lx-gutter">
+            <small>{t.built}</small>
+            {t.sectors.map((item) => <span key={item}>{item}</span>)}
+          </div>
+        </section>
+
+        {/* Apertura: un párrafo grande y desplazado, con rótulo fijo al margen. */}
+        <section className="lx-shell" id="services">
+          <div className="lx-opener reveal">
+            <p className="lx-openerLabel">{t.serviceTag}</p>
+            <p className="lx-openerText">
+              {t.serviceTitle} <b>{t.serviceNote}</b>
+            </p>
+          </div>
+        </section>
+
+        {/* El ciclo completo: de la tierra a la vida. Cada etapa declara su
+            estado real, para no presentar como disponible lo que aún no lo es. */}
+        <section className="lx-cycle lx-bleed" id="ciclo">
+          <div className="lx-gutter reveal">
+            <div className="lx-cycleHead">
+              <div>
+                <small className="lx-label">{t.cycleTag}</small>
+                <h2>{t.cycleTitle}</h2>
+              </div>
+              <p>{t.cycleBody}</p>
+            </div>
+
+            <div className="lx-cycleTrack">
+              {t.cycleStages.map(([num, name, desc, productKey]) => {
+                const product = getPublicProduct(productKey);
+                return (
+                  <article key={num} className={`lx-stage is-${product.status}`}>
+                    <span className="lx-stageNum">{num}</span>
+                    <h3 className="lx-stageName">{name}</h3>
+                    <p className="lx-stageDesc">{desc}</p>
+                    <span className="lx-stageState">{product.statusShort[lang]}</span>
+                  </article>
+                );
+              })}
+            </div>
+
+            <div className="lx-cycleBase">
+              <small>{t.cycleBaseTag}</small>
+              {t.cycleBase.map((item) => <span key={item}>{item}</span>)}
+            </div>
+          </div>
+        </section>
+
+        {/* La app móvil: capturas reales del simulador. Sin insignias de tienda,
+            porque todavía no está publicada. */}
+        <section className="lx-mobile lx-bleed" id="movil">
+          <div className="lx-mobileGrid lx-gutter reveal">
+            <div className="lx-mobileCopy">
+              <small className="lx-label">{t.mobileTag}</small>
+              <h2>{t.mobileTitle}</h2>
+              <p>{t.mobileBody}</p>
+              <span className="lx-mobileState">{t.mobileState}</span>
+              <p className="lx-mobileNote">{t.mobileNote}</p>
+              <div className="lx-mobileActions">
+                <a className="lx-btn lx-btn--solid" href="#contact">{t.mobileCta}<ArrowRight /></a>
+              </div>
+            </div>
+            <div className="lx-phones">
+              {[["/app/mobile-proyectos.jpg", 2], ["/app/mobile-inicio.jpg", 0], ["/app/mobile-lotes.jpg", 1]].map(([src, i]) => (
+                <div key={src} className="lx-phone">
+                  <div className="lx-phoneScreen">
+                    <img src={asset(src)} alt={t.mobileShots[i]} loading="lazy" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Cada producto ocupa el ancho completo; la imagen llega al borde. */}
+        <section className="lx-bleed">
+          {publicProducts.map((product, index) => (
+            <article key={product.key} className={`lx-feature status-${product.status} reveal`}>
+              <a
+                className="lx-featureMedia"
+                href={product.landing}
+                aria-label={`${product.cta[lang]}: ${product.name}`}
+              >
+                <video autoPlay muted loop playsInline preload="metadata" poster={asset(product.poster)} aria-hidden="true">
+                  <source src={asset(product.video)} type="video/mp4" />
+                </video>
+              </a>
+              <div className="lx-featureCopy">
+                <span className="lx-featureIndex">0{index + 1}</span>
+                <div className="lx-featureMeta">
+                  <span className="lx-status">{product.statusLabel[lang]}</span>
+                  <span>{product.handle}</span>
+                </div>
+                <h3 className="lx-featureName">{product.name}</h3>
+                <p className="lx-featureDesc">{product.description[lang]}</p>
+                <div className="lx-tags">
+                  {product.tags[lang].map((tag) => <span key={tag}>{tag}</span>)}
+                </div>
+                <a className="lx-link" href={product.landing}>{product.cta[lang]}<ArrowRight /></a>
+              </div>
+            </article>
+          ))}
+        </section>
+
+        {/* Declaración: puro tipo sobre fondo oscuro, para cortar el ritmo. */}
+        <section className="lx-statement lx-bleed">
+          <div className="lx-statementInner lx-gutter reveal">
+            <p className="lx-statementLabel">{t.discoverTag}</p>
+            <p className="lx-statementText">{t.discoverTitle}</p>
+            <div className="lx-statementFoot">
+              {t.cards.map(([title, body]) => (
+                <p key={title}><b>{title}</b>{body}</p>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Flujo con imagen que se sale del contenedor y tarjeta superpuesta. */}
+        <section className="lx-shell" id="work">
+          <div className="lx-process reveal">
+            <div className="lx-processCopy">
+              <small className="lx-label">{t.workTag}</small>
+              <h2>{t.workTitle}</h2>
+              <p className="lx-lead">{t.workBody}</p>
+              <ul className="lx-processList">
+                {t.bullets.map((item, index) => (
+                  <li key={item}><em>0{index + 1}</em><span>{item}</span></li>
+                ))}
+              </ul>
+              <div className="lx-processActions">
+                <a className="lx-btn lx-btn--line" href="#contact">{t.build}<ArrowRight /></a>
+                <a className="lx-link" href="/hub.html">{t.discoverCta}<ArrowRight /></a>
+              </div>
+            </div>
+            <div className="lx-processMedia">
+              {/* No usar la captura del panel general: corresponde a una versión
+                  anterior y muestra dos etiquetas de producto ya retiradas. */}
+              <div className="lx-processFrame">
+                <img src={asset("/app/fraccionamiento.jpg")} alt="" loading="lazy" />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Principios como lista editorial: numeral grande en el margen. */}
+        <section className="lx-shell" id="principles">
+          <div className="lx-creed">
+            <div className="lx-creedHead reveal">
+              <div>
+                <small className="lx-label">{t.why}</small>
+                <h2>{t.whyTitle}</h2>
+              </div>
+            </div>
+            {t.principles.map(([number, title, body]) => (
+              <div key={number} className="lx-creedItem reveal">
+                <span className="lx-creedNum">{number}</span>
+                <h3>{title}</h3>
+                <p>{body}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Acceso: imagen que sangra por la izquierda con las apps superpuestas. */}
+        <section className="lx-shell" id="client-access">
+          <div className="lx-entry reveal">
+            <div className="lx-entryMedia">
+              <img src={asset("/app/ecosistema.jpg")} alt="" loading="lazy" />
+            </div>
+            <div>
+              <small className="lx-label">{t.accessTag}</small>
+              <h2 className="lx-h2">{t.accessTitle}</h2>
+              <p className="lx-lead">{t.accessBody}</p>
+              <p className="lx-note"><ShieldCheck />{t.accessSecure}</p>
+              <div className="lx-accessActions">
+                <a
+                  className={`lx-btn ${configuredAppUrl ? "lx-btn--ink" : "lx-btn--off"}`}
+                  href={configuredAppUrl || "#contact"}
+                  target={configuredAppUrl ? "_blank" : undefined}
+                  rel={configuredAppUrl ? "noreferrer" : undefined}
+                >
+                  {configuredAppUrl ? t.access : t.accessPending}
+                  <LogIn />
+                </a>
+                <a className="lx-help" href="mailto:safeports.contacto@gmail.com">
+                  {t.accessHelp}<ArrowRight />
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Cierre a sangre sobre fondo oscuro. */}
+        <section className="lx-close lx-bleed" id="contact">
+          <div className="lx-closeGrid lx-gutter reveal">
+            <div className="lx-closeAside">
+              <small className="lx-label">{t.contact}</small>
+              <h2>{t.contactTitle}</h2>
+              <p>{t.contactBody}</p>
+              <a className="lx-closeMail" href="mailto:safeports.contacto@gmail.com">{t.emailCta}</a>
+              <span className="lx-closePlace">México</span>
+            </div>
+            <form className="lx-form" onSubmit={submit}>
+              <div className="lx-row">
+                <label className="lx-field"><span>{t.labels[0]}</span><input required name="name" autoComplete="name" /></label>
+                <label className="lx-field"><span>{t.labels[1]}</span><input name="company" autoComplete="organization" /></label>
+              </div>
+              <label className="lx-field"><span>{t.labels[2]}</span><input required type="email" name="email" autoComplete="email" /></label>
+              <div className="lx-row">
+                <label className="lx-field">
+                  <span>{t.labels[3]}</span>
+                  <select required name="operation" defaultValue="">
+                    <option value="" disabled>{t.operationOptions[0]}</option>
+                    {t.operationOptions.slice(1).map((option) => <option key={option}>{option}</option>)}
+                  </select>
+                </label>
+                <label className="lx-field">
+                  <span>{t.labels[4]}</span>
+                  <select required name="portfolioSize" defaultValue="">
+                    <option value="" disabled>{t.sizeOptions[0]}</option>
+                    {t.sizeOptions.slice(1).map((option) => <option key={option}>{option}</option>)}
+                  </select>
+                </label>
+              </div>
+              <label className="lx-field"><span>{t.labels[5]}</span><input name="tools" /></label>
+              <label className="lx-field"><span>{t.labels[6]}</span><textarea required name="challenge" rows="5" /></label>
+              <button className="lx-btn lx-btn--solid">{t.send}<ArrowRight /></button>
+            </form>
+          </div>
+        </section>
+      </main>
+
+      <footer className="lx-footer">
+        <Brand />
+        <span>© 2026</span>
+        <p>{t.footer}</p>
+      </footer>
+    </div>
+  );
 }

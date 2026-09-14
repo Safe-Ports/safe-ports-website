@@ -1,0 +1,885 @@
+/*
+  Capa editorial de la portada.
+
+  El sistema anterior repetía la misma receta en cada sección (rótulo, título,
+  párrafo y una rejilla de cajas iguales), y eso es exactamente lo que hace que
+  una página parezca una presentación. Aquí el color y la tipografía no cambian:
+  cambia la composición.
+
+  Principios:
+  - Imagen a sangre, de borde a borde, en lugar de recuadros con marco.
+  - Asimetría: no todo empieza en el mismo margen izquierdo.
+  - Contraste de escala: un número enorme junto a un rótulo diminuto.
+  - Capas y superposición en vez de bloques planos uno tras otro.
+  - Ritmo variado: bandas claras y oscuras, densas y respiradas.
+*/
+
+/* ---------- Utilidades de composición ---------- */
+
+/*
+  Distancia real entre el borde del contenedor y el borde de la ventana.
+  No sirve `calc(50% - 50vw)` cuando el elemento vive dentro de una columna de
+  rejilla: ese 50% se mide contra la columna, no contra la página, y el bloque
+  se pasa de largo. Este token se mide siempre contra la ventana.
+*/
+.lx-site { --edge: calc((100vw - min(1240px, 100vw - 48px)) / 2); }
+
+/* Rompe el contenedor y llega a los bordes reales de la ventana.
+   Aquí sí vale el 50%: se aplica a hijos directos de <main>, a ancho completo. */
+.lx-bleed {
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+}
+
+/* Alinea el texto con el margen del sitio aunque el bloque sea a sangre. */
+.lx-gutter { padding-inline: max(24px, calc((100vw - 1240px) / 2)); }
+
+/* Aparición al hacer scroll. */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.9s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.reveal.is-in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
+
+/* ---------- Navegación sobre la portada ---------- */
+
+.lx-nav {
+  transition: background 0.5s ease, border-color 0.5s ease, backdrop-filter 0.5s ease;
+}
+
+.lx-nav.is-over {
+  background: transparent;
+  border-bottom-color: transparent;
+  backdrop-filter: none;
+}
+
+.lx-nav.is-over .lx-brand b { color: var(--stone-0); }
+.lx-nav.is-over .lx-brandMark .lx-markInk { display: none; }
+.lx-nav.is-over .lx-brandMark .lx-markLight { display: block; }
+.lx-nav.is-over .lx-links > a,
+.lx-nav.is-over .lx-lang { color: rgba(253, 251, 247, 0.82); }
+.lx-nav.is-over .lx-links > a:hover,
+.lx-nav.is-over .lx-lang:hover { color: var(--stone-0); }
+.lx-nav.is-over .lx-navCta { border-color: rgba(253, 251, 247, 0.5); color: var(--stone-0); }
+.lx-nav.is-over .lx-navCta:hover { background: var(--stone-0); color: var(--ink); }
+.lx-nav.is-over .lx-menu { color: var(--stone-0); }
+
+/* ---------- Portada cinematográfica ---------- */
+
+.lx-cover {
+  position: relative;
+  min-height: min(96vh, 940px);
+  margin-top: -82px; /* la barra queda encima del video */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+  background: var(--ink);
+}
+
+.lx-coverMedia { position: absolute; inset: 0; }
+
+.lx-coverMedia video,
+.lx-coverMedia img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Doble velo: uno vertical para el texto y otro lateral para la esquina viva. */
+.lx-coverMedia::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(20, 17, 15, 0.62) 0%, rgba(20, 17, 15, 0.24) 34%, rgba(20, 17, 15, 0.82) 100%),
+    linear-gradient(90deg, rgba(20, 17, 15, 0.58) 0%, rgba(20, 17, 15, 0) 62%);
+}
+
+.lx-coverInner {
+  position: relative;
+  z-index: 2;
+  padding-block: 0 clamp(48px, 7vh, 84px);
+  padding-top: 140px;
+}
+
+.lx-coverEyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  font: 500 11px/1 var(--sans);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(253, 251, 247, 0.78);
+}
+
+.lx-coverEyebrow::before { content: ""; width: 46px; height: 1px; background: var(--bronze); }
+
+/* La escala es el punto: el titular es mucho mayor que cualquier otro texto. */
+.lx-coverTitle {
+  margin: 28px 0 0;
+  max-width: 15ch;
+  font: 300 clamp(52px, 8.4vw, 132px)/0.98 var(--serif);
+  letter-spacing: -0.035em;
+  color: var(--stone-0);
+}
+
+.lx-coverTitle em {
+  display: block;
+  font-style: italic;
+  color: #e2a88f;
+}
+
+.lx-coverIntro {
+  margin: 30px 0 0;
+  max-width: 46ch;
+  font-size: clamp(15.5px, 1.4vw, 18px);
+  line-height: 1.8;
+  font-weight: 300;
+  color: rgba(253, 251, 247, 0.82);
+}
+
+.lx-coverActions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 38px; }
+
+.lx-coverActions .lx-btn--line { border-color: rgba(253, 251, 247, 0.45); color: var(--stone-0); }
+.lx-coverActions .lx-btn--line:hover { background: rgba(253, 251, 247, 0.12); border-color: var(--stone-0); }
+
+/* Cinta inferior: sectores, sin píldoras ni cajas. */
+.lx-coverStrip {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0 34px;
+  padding-block: 22px;
+  border-top: 1px solid rgba(253, 251, 247, 0.22);
+}
+
+.lx-coverStrip small {
+  font: 500 10.5px/2 var(--sans);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(253, 251, 247, 0.55);
+}
+
+.lx-coverStrip span {
+  font: 400 15.5px/2 var(--serif);
+  letter-spacing: 0.06em;
+  color: rgba(253, 251, 247, 0.92);
+}
+
+/* ---------- Apertura editorial ---------- */
+
+/* Un solo párrafo grande, desplazado del margen: rompe la simetría de inmediato. */
+.lx-opener {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 7fr);
+  gap: clamp(28px, 5vw, 76px);
+  padding-block: clamp(76px, 11vh, 140px);
+}
+
+.lx-openerLabel {
+  font: 500 10.5px/1.9 var(--sans);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--bronze);
+  align-self: start;
+  position: sticky;
+  top: 120px;
+}
+
+.lx-openerText {
+  margin: 0;
+  font: 300 clamp(23px, 2.7vw, 38px)/1.45 var(--serif);
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+.lx-openerText b { font-weight: 400; font-style: italic; color: var(--terracotta); }
+
+/* ---------- Bandas de producto a sangre ---------- */
+
+.lx-feature {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: stretch;
+  min-height: clamp(460px, 62vh, 640px);
+}
+
+/* Alterna el lado de la imagen sin cambiar el orden del DOM. */
+.lx-feature:nth-child(even) .lx-featureMedia { order: 2; }
+
+.lx-featureMedia { position: relative; overflow: hidden; background: var(--stone-2); }
+
+.lx-featureMedia video,
+.lx-featureMedia img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.2s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.lx-feature:hover .lx-featureMedia video { transform: scale(1.05); }
+
+.lx-featureMedia::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(43, 38, 34, 0.04), rgba(43, 38, 34, 0.2));
+}
+
+.lx-featureCopy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 14px;
+  padding: clamp(44px, 6vw, 96px) clamp(28px, 5vw, 88px);
+  background: var(--stone-1);
+}
+
+.lx-feature:nth-child(even) .lx-featureCopy { background: var(--stone-0); }
+
+/* Contraste de escala: el índice es enorme y casi transparente. */
+.lx-featureIndex {
+  font: 300 clamp(56px, 7vw, 96px)/0.85 var(--serif);
+  color: var(--stone-3);
+  letter-spacing: -0.04em;
+  margin-bottom: 6px;
+}
+
+.lx-featureName {
+  margin: 0;
+  font: 300 clamp(32px, 3.6vw, 52px)/1.08 var(--serif);
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.lx-featureDesc {
+  margin: 6px 0 0;
+  max-width: 46ch;
+  font-size: 15.5px;
+  line-height: 1.85;
+  font-weight: 300;
+  color: var(--ink-soft);
+}
+
+.lx-featureMeta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font: 500 10.5px/1 var(--sans);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.lx-featureMeta .lx-status { color: inherit; }
+.lx-feature.status-implemented .lx-featureMeta .lx-status { color: var(--sage); }
+.lx-feature.status-prototype .lx-featureMeta .lx-status { color: var(--bronze); }
+.lx-feature.status-exploration .lx-featureMeta .lx-status { color: var(--stone-mute); }
+.lx-feature.status-exploration .lx-featureMedia video { filter: saturate(0.55); }
+
+/* ---------- Declaración tipográfica ---------- */
+
+/* Un momento de puro tipo: rompe el ritmo entre dos bloques densos. */
+.lx-statement {
+  padding-block: clamp(88px, 13vh, 170px);
+  background: var(--ink);
+  color: var(--stone-0);
+}
+
+.lx-statementInner { display: grid; grid-template-columns: minmax(0, 1fr); gap: 40px; }
+
+.lx-statementLabel {
+  font: 500 10.5px/1 var(--sans);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--bronze);
+}
+
+.lx-statementText {
+  margin: 0;
+  max-width: 20ch;
+  font: 300 clamp(38px, 6.4vw, 96px)/1.04 var(--serif);
+  letter-spacing: -0.03em;
+  color: var(--stone-0);
+}
+
+.lx-statementText em { font-style: italic; color: #e2a88f; }
+
+.lx-statementFoot {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(24px, 4vw, 64px);
+  margin-top: clamp(40px, 6vh, 72px);
+  padding-top: 34px;
+  border-top: 1px solid rgba(253, 251, 247, 0.2);
+}
+
+.lx-statementFoot p {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.8;
+  font-weight: 300;
+  color: rgba(253, 251, 247, 0.7);
+}
+
+.lx-statementFoot b {
+  display: block;
+  margin-bottom: 10px;
+  font: 400 19px/1.3 var(--serif);
+  color: var(--stone-0);
+}
+
+/* ---------- Bloque de flujo con imagen superpuesta ---------- */
+
+.lx-process {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(32px, 5vw, 90px);
+  align-items: center;
+  padding-block: clamp(80px, 12vh, 150px);
+}
+
+.lx-processCopy > h2 {
+  margin: 22px 0 0;
+  max-width: 16ch;
+  font: 300 clamp(34px, 4.4vw, 60px)/1.08 var(--serif);
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.lx-processList { list-style: none; margin: 34px 0 0; padding: 0; }
+
+.lx-processList li {
+  display: grid;
+  grid-template-columns: 38px 1fr;
+  gap: 6px 16px;
+  padding: 20px 0;
+  border-top: 1px solid var(--rule-soft);
+}
+
+.lx-processList li:last-child { border-bottom: 1px solid var(--rule-soft); }
+
+.lx-processList em {
+  font: 400 13px/1.6 var(--serif);
+  font-style: normal;
+  letter-spacing: 0.16em;
+  color: var(--stone-3);
+}
+
+.lx-processList span { font-size: 15px; line-height: 1.75; font-weight: 300; color: var(--ink-soft); }
+
+/* La imagen se sale del contenedor por el lado derecho. */
+/* Sin `stretch`: al igualar la altura de la columna de texto el contenedor
+   quedaba casi cuadrado y `cover` se comía media captura. La proporción manda. */
+.lx-processMedia {
+  position: relative;
+  align-self: center;
+  aspect-ratio: 16 / 10;
+  margin-right: calc(var(--edge) * -1);
+  background: var(--stone-2);
+}
+
+/* El recorte vive en el marco interior; si estuviera en el contenedor,
+   cortaría la tarjeta que sobresale por la izquierda. */
+.lx-processFrame { position: absolute; inset: 0; overflow: hidden; }
+
+.lx-processMedia img,
+.lx-processMedia video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: left center;
+}
+
+
+
+
+/* ---------- Principios como lista editorial ---------- */
+
+.lx-creed { padding-block: clamp(76px, 11vh, 140px); }
+
+.lx-creedHead { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; flex-wrap: wrap; margin-bottom: clamp(40px, 6vh, 72px); }
+
+.lx-creedHead h2 {
+  margin: 18px 0 0;
+  max-width: 16ch;
+  font: 300 clamp(34px, 4.4vw, 60px)/1.08 var(--serif);
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.lx-creedItem {
+  display: grid;
+  grid-template-columns: minmax(0, 96px) minmax(0, 4fr) minmax(0, 6fr);
+  gap: clamp(20px, 4vw, 64px);
+  align-items: baseline;
+  padding: clamp(28px, 4vh, 44px) 0;
+  border-top: 1px solid var(--rule);
+}
+
+.lx-creedItem:last-child { border-bottom: 1px solid var(--rule); }
+
+.lx-creedNum {
+  font: 300 clamp(40px, 4.4vw, 60px)/0.9 var(--serif);
+  color: var(--stone-3);
+  letter-spacing: -0.03em;
+  transition: color 0.4s ease;
+}
+
+.lx-creedItem:hover .lx-creedNum { color: var(--terracotta); }
+
+.lx-creedItem h3 {
+  margin: 0;
+  font: 400 clamp(21px, 2.2vw, 30px)/1.2 var(--serif);
+  color: var(--ink);
+}
+
+.lx-creedItem p { margin: 0; font-size: 15px; line-height: 1.85; font-weight: 300; color: var(--ink-soft); }
+
+/* ---------- Acceso de clientes ---------- */
+
+.lx-entry {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(32px, 5vw, 88px);
+  align-items: center;
+  padding-block: clamp(76px, 11vh, 140px);
+}
+
+/* La captura conserva su proporción original: forzar una caja alta la recortaba
+   por la mitad de la barra lateral. Sin velo: es una prueba de producto. */
+.lx-entryMedia {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  margin-left: calc(var(--edge) * -1);
+  background: var(--stone-2);
+  overflow: hidden;
+}
+
+.lx-entryMedia img,
+.lx-entryMedia video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: left center;
+}
+
+
+
+
+
+/* ---------- Contacto a sangre ---------- */
+
+.lx-close {
+  background: var(--ink);
+  color: var(--stone-0);
+  padding-block: clamp(80px, 12vh, 150px);
+}
+
+.lx-closeGrid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(36px, 6vw, 96px); }
+
+.lx-closeAside h2 {
+  margin: 20px 0 0;
+  max-width: 15ch;
+  font: 300 clamp(34px, 4.4vw, 58px)/1.08 var(--serif);
+  letter-spacing: -0.025em;
+  color: var(--stone-0);
+  text-wrap: balance;
+}
+
+.lx-closeAside p {
+  margin: 24px 0 0;
+  max-width: 44ch;
+  font-size: 15.5px;
+  line-height: 1.85;
+  font-weight: 300;
+  color: rgba(253, 251, 247, 0.7);
+}
+
+.lx-closeAside .lx-label { color: var(--bronze); }
+
+.lx-closeMail {
+  display: inline-flex;
+  margin-top: 30px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(253, 251, 247, 0.35);
+  font: 500 11px/1 var(--sans);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--stone-0);
+  transition: border-color 0.25s ease, color 0.25s ease;
+}
+
+.lx-closeMail:hover { color: #e2a88f; border-color: #e2a88f; }
+
+.lx-closePlace {
+  display: block;
+  margin-top: 32px;
+  font: 400 15px/1 var(--serif);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(253, 251, 247, 0.45);
+}
+
+/* Formulario sobre fondo oscuro. */
+.lx-close .lx-field > span { color: rgba(253, 251, 247, 0.55); }
+
+.lx-close .lx-field input,
+.lx-close .lx-field select,
+.lx-close .lx-field textarea {
+  border-bottom-color: rgba(253, 251, 247, 0.28);
+  color: var(--stone-0);
+}
+
+.lx-close .lx-field select {
+  background-image: linear-gradient(45deg, transparent 50%, rgba(253, 251, 247, 0.55) 50%), linear-gradient(135deg, rgba(253, 251, 247, 0.55) 50%, transparent 50%);
+}
+
+.lx-close .lx-field option { background: var(--ink); color: var(--stone-0); }
+
+.lx-close .lx-field input:focus,
+.lx-close .lx-field select:focus,
+.lx-close .lx-field textarea:focus { border-bottom-color: #e2a88f; }
+
+.lx-close .lx-btn--solid { background: var(--stone-0); color: var(--ink); }
+.lx-close .lx-btn--solid:hover { background: #e2a88f; }
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 1000px) {
+  .lx-statementFoot { grid-template-columns: 1fr; gap: 26px; }
+  .lx-creedItem { grid-template-columns: 64px 1fr; }
+  .lx-creedItem p { grid-column: 2; }
+}
+
+@media (max-width: 860px) {
+  .lx-site { --edge: 20px; }
+
+  .lx-cover { margin-top: -82px; min-height: 88vh; }
+  .lx-coverInner { padding-top: 124px; }
+
+  /* `1fr` es `minmax(auto, 1fr)`: el mínimo es el contenido y la columna no
+     puede encoger por debajo de él. Con minmax(0, 1fr) sí encoge y el texto
+     vuelve a ajustarse al ancho real del teléfono. */
+  .lx-opener,
+  .lx-process,
+  .lx-entry,
+  .lx-closeGrid { grid-template-columns: minmax(0, 1fr); }
+
+  .lx-openerLabel { position: static; }
+
+  .lx-feature { grid-template-columns: 1fr; min-height: 0; }
+  .lx-feature .lx-featureMedia,
+  .lx-feature:nth-child(even) .lx-featureMedia { order: -1; min-height: 260px; position: relative; }
+  .lx-featureCopy { padding: 40px 24px 48px; }
+
+  /* Sin min-height: con `aspect-ratio` una altura forzada deriva el ancho
+     (300 x 1.6 = 480px) y desbordaba la pantalla. La proporción ya basta. */
+  .lx-processMedia { margin-inline: calc(var(--edge) * -1); }
+  .lx-entryMedia { margin-inline: calc(var(--edge) * -1); }
+
+  .lx-coverActions .lx-btn { width: 100%; }
+}
+
+@media (max-width: 560px) {
+  .lx-creedItem { grid-template-columns: 1fr; gap: 10px; }
+  .lx-creedNum { font-size: 34px; }
+}
+
+/* ---------- El ciclo inmobiliario completo ---------- */
+
+/*
+  La pieza que define el posicionamiento: un activo recorrido de punta a punta.
+  Cada etapa lleva su estado real de producto, porque el brief prohíbe presentar
+  como disponible lo que todavía es vista previa o exploración.
+*/
+
+.lx-cycle {
+  background: var(--ink);
+  color: var(--stone-0);
+  padding-block: clamp(80px, 12vh, 150px);
+}
+
+.lx-cycleHead {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(28px, 5vw, 76px);
+  align-items: end;
+  margin-bottom: clamp(48px, 7vh, 84px);
+}
+
+.lx-cycleHead .lx-label { color: var(--bronze); }
+
+.lx-cycleHead h2 {
+  margin: 18px 0 0;
+  max-width: 17ch;
+  font: 300 clamp(34px, 4.4vw, 62px)/1.06 var(--serif);
+  letter-spacing: -0.025em;
+  color: var(--stone-0);
+  text-wrap: balance;
+}
+
+.lx-cycleHead p {
+  margin: 0;
+  max-width: 54ch;
+  font-size: 15.5px;
+  line-height: 1.85;
+  font-weight: 300;
+  color: rgba(253, 251, 247, 0.68);
+}
+
+/* Recorrido: seis etapas unidas por una línea continua. */
+.lx-cycleTrack {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 1px;
+  background: rgba(253, 251, 247, 0.16);
+  border-block: 1px solid rgba(253, 251, 247, 0.16);
+}
+
+.lx-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 30px 22px 34px;
+  background: var(--ink);
+  transition: background 0.35s ease;
+}
+
+.lx-stage:hover { background: #332d28; }
+
+.lx-stageNum {
+  font: 300 26px/1 var(--serif);
+  color: rgba(253, 251, 247, 0.3);
+  letter-spacing: -0.02em;
+}
+
+.lx-stageName {
+  margin: 0;
+  font: 400 clamp(19px, 1.9vw, 25px)/1.15 var(--serif);
+  color: var(--stone-0);
+}
+
+.lx-stageDesc {
+  margin: 0;
+  flex: 1;
+  font-size: 13px;
+  line-height: 1.7;
+  font-weight: 300;
+  color: rgba(253, 251, 247, 0.62);
+}
+
+.lx-stageState {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  font: 500 9.5px/1.4 var(--sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.lx-stageState::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: currentColor; flex: none; }
+
+.lx-stage.is-implemented .lx-stageState { color: #8fa882; }
+.lx-stage.is-prototype .lx-stageState { color: #c7a46a; }
+.lx-stage.is-exploration .lx-stageState { color: rgba(253, 251, 247, 0.42); }
+
+/* La capa transversal corre por debajo de las seis etapas. */
+.lx-cycleBase {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0 28px;
+  margin-top: 34px;
+}
+
+.lx-cycleBase small {
+  font: 500 10px/2 var(--sans);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--bronze);
+  margin-right: 6px;
+}
+
+.lx-cycleBase span {
+  position: relative;
+  font: 400 15px/2 var(--serif);
+  letter-spacing: 0.05em;
+  color: rgba(253, 251, 247, 0.86);
+}
+
+.lx-cycleBase span + span { padding-left: 28px; }
+
+.lx-cycleBase span + span::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 1px;
+  height: 12px;
+  transform: translateY(-50%);
+  background: rgba(253, 251, 247, 0.25);
+}
+
+@media (max-width: 1100px) {
+  .lx-cycleTrack { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 860px) {
+  .lx-cycleHead { grid-template-columns: 1fr; align-items: start; gap: 22px; }
+  .lx-cycleTrack { grid-template-columns: 1fr; }
+  .lx-stage { padding: 24px 20px 28px; }
+  .lx-cycleBase { gap: 0; flex-direction: column; }
+  .lx-cycleBase span + span { padding-left: 0; }
+  .lx-cycleBase span + span::before { display: none; }
+}
+
+/* Acciones del bloque "cómo funciona": el enlace al hub vive aquí, no flotando
+   sobre la captura. */
+.lx-processActions { display: flex; align-items: center; flex-wrap: wrap; gap: 18px 28px; }
+
+@media (max-width: 860px) {
+  .lx-processActions { align-items: stretch; flex-direction: column; gap: 20px; }
+  .lx-processActions .lx-btn { width: 100%; }
+}
+
+/* ---------- La operación desde el teléfono ---------- */
+
+/*
+  Marcos de teléfono dibujados en CSS: evita depender de imágenes de dispositivo
+  y se adapta solo. La proporción es la del iPhone 15 Pro (1179x2556).
+  Sin insignias de tienda: la app todavía no está publicada.
+*/
+
+.lx-mobile {
+  background: var(--ink);
+  color: var(--stone-0);
+  padding-block: clamp(80px, 12vh, 150px);
+  overflow: hidden;
+}
+
+.lx-mobileGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(36px, 5vw, 80px);
+  align-items: center;
+}
+
+.lx-mobileCopy .lx-label { color: var(--bronze); }
+
+.lx-mobileCopy h2 {
+  margin: 20px 0 0;
+  max-width: 14ch;
+  font: 300 clamp(34px, 4.6vw, 64px)/1.06 var(--serif);
+  letter-spacing: -0.025em;
+  color: var(--stone-0);
+  text-wrap: balance;
+}
+
+.lx-mobileCopy > p {
+  margin: 26px 0 0;
+  max-width: 46ch;
+  font-size: 15.5px;
+  line-height: 1.85;
+  font-weight: 300;
+  color: rgba(253, 251, 247, 0.72);
+}
+
+.lx-mobileState {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 30px;
+  padding: 10px 0;
+  font: 500 10.5px/1 var(--sans);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #c7a46a;
+}
+
+.lx-mobileState::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+
+.lx-mobileNote {
+  margin: 18px 0 0;
+  max-width: 44ch;
+  font-size: 13.5px;
+  line-height: 1.75;
+  font-weight: 300;
+  color: rgba(253, 251, 247, 0.55);
+}
+
+.lx-mobileActions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 26px; margin-top: 32px; }
+
+.lx-mobile .lx-btn--solid { background: var(--stone-0); color: var(--ink); }
+.lx-mobile .lx-btn--solid:hover { background: #e2a88f; }
+
+/* Trío de teléfonos escalonados. */
+.lx-phones {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(12px, 1.6vw, 26px);
+}
+
+.lx-phone {
+  position: relative;
+  flex: 1 1 0;
+  max-width: 230px;
+  aspect-ratio: 1179 / 2371; /* captura ya recortada de la barra de estado */
+  padding: 7px;
+  border-radius: 34px;
+  background: linear-gradient(160deg, #4a423b, #211d19 40%);
+  box-shadow: 0 40px 90px -40px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(253, 251, 247, 0.08);
+}
+
+/* El central va adelante y un poco más alto: da profundidad sin trucos. */
+.lx-phone:nth-child(2) { transform: translateY(-30px) scale(1.06); z-index: 2; }
+.lx-phone:nth-child(1) { transform: translateY(18px) rotate(-1.5deg); }
+.lx-phone:nth-child(3) { transform: translateY(18px) rotate(1.5deg); }
+
+.lx-phoneScreen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 27px;
+  overflow: hidden;
+  background: var(--stone-1);
+}
+
+.lx-phoneScreen img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+
+
+@media (max-width: 1000px) {
+  .lx-mobileGrid { grid-template-columns: minmax(0, 1fr); gap: 48px; }
+  .lx-phones { max-width: 620px; margin-inline: auto; }
+}
+
+@media (max-width: 620px) {
+  .lx-phone:nth-child(1),
+  .lx-phone:nth-child(3) { display: none; }
+  .lx-phone:nth-child(2) { transform: none; max-width: 260px; }
+  .lx-mobileActions .lx-btn { width: 100%; }
+}

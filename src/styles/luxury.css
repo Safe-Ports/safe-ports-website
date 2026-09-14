@@ -1,0 +1,744 @@
+/*
+  Own Terra — sistema visual "piedra cálida y terracota".
+  Estilo de desarrollo inmobiliario de lujo: piedra caliza, terracota y bronce,
+  tipografía serif de display, reglas finas y mucho aire.
+
+  Este archivo solo se carga desde `main.jsx` (la portada). Hub y las landings de
+  producto siguen usando el sistema anterior de `index.css` hasta la segunda fase,
+  por eso todas las clases llevan el prefijo `lx-` y no colisionan con las antiguas.
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap');
+
+.lx-site {
+  /* Piedra */
+  --stone-0: #fdfbf7;
+  --stone-1: #f4efe7;
+  --stone-2: #ece4d8;
+  --stone-3: #ded3c3;
+
+  /* Tinta */
+  --ink: #2b2622;
+  --ink-soft: #5a5148;
+  --ink-mute: #857a6d;
+
+  /* Acentos */
+  --terracotta: #b0543a;
+  --terracotta-deep: #8e4230;
+  --bronze: #9a7b4f;
+
+  /* Estados de producto */
+  --sage: #5f7355;
+  --stone-mute: #9c948a;
+
+  --rule: rgba(43, 38, 34, 0.14);
+  --rule-soft: rgba(43, 38, 34, 0.08);
+
+  --serif: 'Cormorant Garamond', 'Georgia', serif;
+  --sans: 'Inter', system-ui, -apple-system, sans-serif;
+
+  --shell: min(1240px, calc(100% - 48px));
+
+  min-height: 100vh;
+  background: var(--stone-1);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+
+html:has(.lx-site),
+body:has(.lx-site) {
+  background: var(--stone-1, #f4efe7);
+}
+
+.lx-site *,
+.lx-site *::before,
+.lx-site *::after { box-sizing: border-box; }
+
+.lx-shell { width: var(--shell); margin-inline: auto; }
+
+/* ---------- Tipografía base ---------- */
+
+.lx-label {
+  display: block;
+  font: 500 11px/1 var(--sans);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--bronze);
+}
+
+.lx-h2 {
+  margin: 20px 0 0;
+  font: 300 clamp(34px, 4.4vw, 56px)/1.12 var(--serif);
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  max-width: 22ch;
+  text-wrap: balance;
+}
+
+.lx-lead {
+  margin: 22px 0 0;
+  max-width: 62ch;
+  font-size: 16.5px;
+  line-height: 1.8;
+  color: var(--ink-soft);
+  font-weight: 300;
+}
+
+/* ---------- Navegación ---------- */
+
+.lx-nav {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  height: 82px;
+  padding-inline: max(24px, calc((100vw - 1240px) / 2));
+  background: rgba(244, 239, 231, 0.86);
+  border-bottom: 1px solid var(--rule-soft);
+  backdrop-filter: blur(14px) saturate(1.1);
+}
+
+.lx-brand { display: inline-flex; align-items: center; gap: 11px; }
+
+.lx-brand b {
+  font: 400 19px/1 var(--serif);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+/* Logotipo real de OwnTerra. Se sirve en dos tintas porque la barra viaja de
+   piedra clara a tinta oscura (y encima de la portada a sangre). */
+.lx-brandMark { display: block; flex: none; line-height: 0; }
+.lx-brandMark img { display: block; width: 30px; height: auto; }
+.lx-brandMark .lx-markLight { display: none; }
+
+.lx-links { display: flex; align-items: center; gap: 34px; }
+
+.lx-links > a,
+.lx-lang {
+  font: 500 11.5px/1 var(--sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  transition: color 0.25s ease;
+}
+
+.lx-links > a:hover,
+.lx-lang:hover { color: var(--terracotta); }
+
+.lx-lang { color: var(--ink-mute); }
+
+.lx-navCta {
+  padding: 13px 24px;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  font: 500 11.5px/1 var(--sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.lx-navCta:hover { background: var(--ink); color: var(--stone-0); }
+
+.lx-menu { display: none; background: none; border: 0; color: var(--ink); cursor: pointer; }
+
+/* ---------- Botones ---------- */
+
+.lx-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 0 32px;
+  border: 1px solid transparent;
+  font: 500 11.5px/1 var(--sans);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.28s ease, color 0.28s ease, border-color 0.28s ease;
+}
+
+.lx-btn svg { width: 15px; height: 15px; }
+
+.lx-btn--solid { background: var(--terracotta); color: var(--stone-0); }
+.lx-btn--solid:hover { background: var(--terracotta-deep); }
+
+.lx-btn--line { border-color: var(--rule); color: var(--ink); }
+.lx-btn--line:hover { border-color: var(--ink); background: rgba(43, 38, 34, 0.04); }
+
+.lx-btn--ink { background: var(--ink); color: var(--stone-0); }
+.lx-btn--ink:hover { background: #1b1815; }
+
+.lx-btn[disabled],
+.lx-btn--off {
+  border-color: var(--rule);
+  color: var(--ink-mute);
+  cursor: not-allowed;
+}
+
+/* ---------- Hero ---------- */
+
+.lx-hero { padding: clamp(72px, 11vh, 130px) 0 clamp(64px, 9vh, 104px); }
+
+.lx-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  font: 500 11px/1 var(--sans);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--bronze);
+}
+
+.lx-eyebrow::before { content: ""; width: 46px; height: 1px; background: var(--bronze); }
+
+.lx-title {
+  margin: 34px 0 0;
+  max-width: 26ch;
+  font: 300 clamp(44px, 6.6vw, 92px)/1.04 var(--serif);
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.lx-title em {
+  display: block;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--terracotta);
+}
+
+.lx-intro {
+  margin: 30px 0 0;
+  max-width: 56ch;
+  font-size: clamp(16px, 1.55vw, 19px);
+  line-height: 1.85;
+  font-weight: 300;
+  color: var(--ink-soft);
+}
+
+.lx-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 44px; }
+
+.lx-sectors {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0 30px;
+  margin-top: 68px;
+  padding-top: 26px;
+  border-top: 1px solid var(--rule);
+}
+
+.lx-sectors small {
+  font: 500 10.5px/1.9 var(--sans);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-right: 8px;
+}
+
+.lx-sectors span {
+  font: 400 15px/1.9 var(--serif);
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+}
+
+/* ---------- Secciones ---------- */
+
+.lx-section { padding: clamp(80px, 11vh, 136px) 0; border-top: 1px solid var(--rule-soft); }
+
+.lx-sectionHead { max-width: 760px; margin-bottom: 60px; }
+
+/* ---------- Ecosistema / productos ---------- */
+
+.lx-products { display: grid; gap: 28px; }
+
+.lx-product {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: var(--stone-0);
+  border: 1px solid var(--rule-soft);
+  overflow: hidden;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.lx-product:hover {
+  border-color: var(--stone-3);
+  box-shadow: 0 30px 70px -40px rgba(43, 38, 34, 0.4);
+}
+
+.lx-product:nth-child(even) .lx-productMedia { order: -1; }
+
+.lx-productBody {
+  padding: clamp(34px, 4vw, 56px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 16px;
+}
+
+.lx-productTop { display: flex; align-items: center; gap: 16px; }
+
+.lx-productIcon { width: 40px; height: 40px; object-fit: contain; opacity: 0.9; }
+
+.lx-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font: 500 10.5px/1 var(--sans);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.lx-status::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.lx-product.status-implemented .lx-status { color: var(--sage); }
+.lx-product.status-prototype .lx-status { color: var(--bronze); }
+.lx-product.status-exploration .lx-status { color: var(--stone-mute); }
+
+.lx-productName {
+  margin: 6px 0 0;
+  font: 400 clamp(26px, 2.6vw, 36px)/1.15 var(--serif);
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.lx-handle {
+  margin: 0;
+  font: 500 10.5px/1 var(--sans);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.lx-productDesc {
+  margin: 6px 0 0;
+  font-size: 15.5px;
+  line-height: 1.8;
+  font-weight: 300;
+  color: var(--ink-soft);
+}
+
+.lx-tags { display: flex; flex-wrap: wrap; gap: 0 18px; margin-top: 4px; }
+
+.lx-tags span {
+  font: 400 13.5px/2 var(--serif);
+  letter-spacing: 0.05em;
+  color: var(--ink-mute);
+}
+
+.lx-tags span + span { position: relative; padding-left: 18px; }
+
+.lx-tags span + span::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 1px;
+  height: 11px;
+  transform: translateY(-50%);
+  background: var(--stone-3);
+}
+
+.lx-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  margin-top: 12px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--rule);
+  font: 500 11px/1 var(--sans);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink);
+  transition: border-color 0.25s ease, color 0.25s ease, gap 0.25s ease;
+}
+
+.lx-link svg { width: 14px; height: 14px; }
+.lx-link:hover { color: var(--terracotta); border-color: var(--terracotta); gap: 16px; }
+
+.lx-productMedia {
+  position: relative;
+  display: block;
+  min-height: 340px;
+  background: var(--stone-2);
+  overflow: hidden;
+}
+
+.lx-productMedia video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.lx-productMedia::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(43, 38, 34, 0.06), rgba(43, 38, 34, 0.18));
+  pointer-events: none;
+}
+
+.lx-product:hover .lx-productMedia video { transform: scale(1.04); }
+
+.lx-product.status-exploration .lx-productMedia video { filter: saturate(0.55); }
+
+/* ---------- Cómo funciona ---------- */
+
+.lx-work { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px, 6vw, 88px); align-items: center; }
+
+.lx-list { list-style: none; margin: 36px 0 0; padding: 0; }
+
+.lx-list li {
+  display: flex;
+  gap: 18px;
+  padding: 18px 0;
+  border-top: 1px solid var(--rule-soft);
+  font-size: 15px;
+  line-height: 1.7;
+  font-weight: 300;
+  color: var(--ink-soft);
+}
+
+.lx-list li:last-child { border-bottom: 1px solid var(--rule-soft); }
+.lx-list svg { width: 16px; height: 16px; flex: none; margin-top: 4px; color: var(--terracotta); }
+
+.lx-panel {
+  display: block;
+  padding: 30px;
+  background: var(--stone-0);
+  border: 1px solid var(--rule-soft);
+  transition: border-color 0.3s ease;
+}
+
+.lx-panel:hover { border-color: var(--stone-3); }
+
+.lx-panelHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--rule-soft);
+  font: 500 10.5px/1 var(--sans);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.lx-panelHead b { font-weight: 500; color: var(--ink); }
+.lx-panelHead span { color: var(--bronze); }
+
+.lx-mini { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-top: 28px; background: var(--rule-soft); }
+
+.lx-miniCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 30px 12px;
+  background: var(--stone-0);
+  text-align: center;
+}
+
+.lx-miniCard img { width: 38px; height: 38px; object-fit: contain; opacity: 0.88; }
+
+.lx-miniCard span {
+  font: 500 10px/1.4 var(--sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.lx-panelFoot {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-top: 26px;
+  font: 500 11px/1 var(--sans);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.lx-panelFoot svg { width: 14px; height: 14px; color: var(--terracotta); }
+
+.lx-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-top: 72px; background: var(--rule-soft); }
+
+.lx-card { padding: 40px 36px; background: var(--stone-1); }
+
+.lx-card > span {
+  font: 500 10px/1 var(--sans);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--bronze);
+}
+
+.lx-card h3 { margin: 20px 0 12px; font: 400 25px/1.2 var(--serif); color: var(--ink); }
+.lx-card p { margin: 0; font-size: 14.5px; line-height: 1.8; font-weight: 300; color: var(--ink-soft); }
+
+/* ---------- Banda / invitación ---------- */
+
+.lx-band {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 48px;
+  padding: clamp(44px, 5vw, 68px) clamp(32px, 4vw, 64px);
+  background: var(--ink);
+  color: var(--stone-0);
+}
+
+.lx-band .lx-label { color: var(--bronze); }
+.lx-band h2 { margin: 18px 0 0; font: 300 clamp(30px, 3.4vw, 44px)/1.16 var(--serif); color: var(--stone-0); max-width: 20ch; }
+.lx-band p { margin: 18px 0 0; max-width: 54ch; font-size: 15.5px; line-height: 1.8; font-weight: 300; color: rgba(253, 251, 247, 0.72); }
+.lx-band .lx-btn { flex: none; background: var(--stone-0); color: var(--ink); }
+.lx-band .lx-btn:hover { background: var(--terracotta); color: var(--stone-0); }
+
+/* ---------- Acceso de clientes ---------- */
+
+.lx-access { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px, 6vw, 88px); align-items: center; }
+
+.lx-accessFrame { padding: 30px; background: var(--stone-0); border: 1px solid var(--rule-soft); }
+
+.lx-accessTop {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--rule-soft);
+  font: 500 10.5px/1 var(--sans);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.lx-accessTop svg { width: 16px; height: 16px; color: var(--bronze); }
+
+.lx-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 30px 0;
+  padding: 20px 0;
+  border-top: 1px solid var(--rule-soft);
+  border-bottom: 1px solid var(--rule-soft);
+  font-size: 14px;
+  line-height: 1.7;
+  font-weight: 300;
+  color: var(--ink-soft);
+}
+
+.lx-note svg { width: 16px; height: 16px; flex: none; margin-top: 3px; color: var(--bronze); }
+
+.lx-accessActions { display: flex; flex-wrap: wrap; align-items: center; gap: 24px; }
+
+.lx-help {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font: 500 11px/1 var(--sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  transition: color 0.25s ease;
+}
+
+.lx-help svg { width: 13px; height: 13px; }
+.lx-help:hover { color: var(--terracotta); }
+
+/* ---------- Principios ---------- */
+
+.lx-principles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--rule-soft); }
+
+.lx-principle { padding: 44px 32px; background: var(--stone-1); }
+
+.lx-num {
+  display: block;
+  font: 300 40px/1 var(--serif);
+  color: var(--stone-3);
+  letter-spacing: -0.02em;
+}
+
+.lx-principle h3 { margin: 24px 0 12px; font: 400 21px/1.25 var(--serif); color: var(--ink); }
+.lx-principle p { margin: 0; font-size: 14px; line-height: 1.8; font-weight: 300; color: var(--ink-soft); }
+
+/* ---------- Contacto ---------- */
+
+.lx-contact { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: clamp(40px, 6vw, 92px); }
+
+.lx-contactAside a {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 30px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--rule);
+  font: 500 11px/1 var(--sans);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink);
+  transition: color 0.25s ease, border-color 0.25s ease;
+}
+
+.lx-contactAside a:hover { color: var(--terracotta); border-color: var(--terracotta); }
+
+.lx-place {
+  display: block;
+  margin-top: 34px;
+  font: 400 15px/1 var(--serif);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.lx-form { display: grid; gap: 26px; }
+
+.lx-row { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+
+.lx-field { display: grid; gap: 10px; }
+
+.lx-field > span {
+  font: 500 10.5px/1 var(--sans);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.lx-field input,
+.lx-field select,
+.lx-field textarea {
+  width: 100%;
+  padding: 12px 0;
+  border: 0;
+  border-bottom: 1px solid var(--rule);
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+  font: 300 16px/1.6 var(--sans);
+  outline: 0;
+  transition: border-color 0.25s ease;
+}
+
+.lx-field select {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--ink-mute) 50%), linear-gradient(135deg, var(--ink-mute) 50%, transparent 50%);
+  background-position: calc(100% - 11px) calc(50% + 1px), calc(100% - 6px) calc(50% + 1px);
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 26px;
+  cursor: pointer;
+}
+
+.lx-field textarea { resize: vertical; min-height: 108px; }
+
+.lx-field input:focus,
+.lx-field select:focus,
+.lx-field textarea:focus { border-bottom-color: var(--terracotta); }
+
+.lx-field input::placeholder,
+.lx-field textarea::placeholder { color: var(--stone-3); }
+
+.lx-form .lx-btn { justify-self: start; margin-top: 6px; }
+
+/* ---------- Pie ---------- */
+
+.lx-footer {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 44px max(24px, calc((100vw - 1240px) / 2));
+  border-top: 1px solid var(--rule);
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--ink-mute);
+}
+
+.lx-footer p { margin: 0 0 0 auto; }
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 1000px) {
+  .lx-principles { grid-template-columns: repeat(2, 1fr); }
+  .lx-cards { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 860px) {
+  .lx-site { --shell: calc(100% - 40px); }
+  .lx-menu { display: block; }
+
+  /* El logotipo no se parte, así que en pantallas estrechas cede tamaño
+     el propio logotipo y el botón de la barra, no el salto de línea. */
+  .lx-brand b { font-size: 15px; letter-spacing: 0.18em; }
+  .lx-brandMark img { width: 25px; }
+  .lx-nav { gap: 12px; padding-inline: 20px; }
+  .lx-nav > .lx-navCta,
+  .lx-nav nav > .lx-navCta { padding: 12px 14px; letter-spacing: 0.1em; }
+
+  .lx-links {
+    display: none;
+    position: absolute;
+    top: 82px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    padding: 20px max(20px, calc((100vw - 1240px) / 2)) 28px;
+    background: var(--stone-1);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .lx-links.is-open { display: flex; }
+  .lx-links > a, .lx-lang { padding: 14px 0; text-align: left; border-bottom: 1px solid var(--rule-soft); }
+  .lx-navCta { margin-top: 16px; text-align: center; }
+
+  .lx-product,
+  .lx-work,
+  .lx-access,
+  .lx-contact,
+  .lx-row { grid-template-columns: 1fr; }
+
+  .lx-product:nth-child(even) .lx-productMedia { order: 0; }
+  .lx-productMedia { min-height: 240px; order: -1; }
+  .lx-work > .lx-panel, .lx-access > .lx-accessFrame { order: 2; }
+  .lx-band { flex-direction: column; align-items: flex-start; }
+  .lx-actions .lx-btn { width: 100%; }
+  .lx-footer p { margin: 0; width: 100%; }
+}
+
+@media (max-width: 560px) {
+  .lx-principles { grid-template-columns: 1fr; }
+  .lx-mini { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lx-site *,
+  .lx-site *::before,
+  .lx-site *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
