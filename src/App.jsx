@@ -5,18 +5,31 @@ import { publicProducts } from "./data/publicProducts";
 const text = {
   es: {
     locale: "English",
-    nav: ["Ecosistema", "Cómo funciona", "Principios", "Acceso"],
+    nav: ["El ciclo", "Ecosistema", "Cómo funciona", "Acceso"],
     contact: "Solicitar demo",
     access: "Ingresar a Own Terra",
     accessPending: "Solicitar acceso",
-    eyebrow: "Tecnología inmobiliaria desarrollada en México",
-    title: "Un sistema operativo para",
-    accent: "cada activo inmobiliario.",
-    intro: "Own Terra conecta inventario, clientes, operación, documentos y seguimiento financiero para equipos que venden terrenos o administran propiedades.",
-    primary: "Elige tu solución",
+    eyebrow: "From land to living.",
+    title: "Todo el ciclo inmobiliario.",
+    accent: "Una sola plataforma.",
+    intro: "Desde el terreno hasta la propiedad terminada. Own Terra conecta adquisición, ventas, construcción, administración, renta y comercialización en un solo ecosistema.",
+    primary: "Ver el ciclo completo",
     secondary: "Solicitar demo",
     built: "Para equipos de",
-    sectors: ["Lotificación", "Ventas", "Administración", "Rentas"],
+    sectors: ["Lotificación", "Construcción", "Administración", "Rentas", "Comercialización"],
+    cycleTag: "El ciclo completo",
+    cycleTitle: "Un activo, seis momentos, un solo sistema.",
+    cycleBody: "Own Terra es la infraestructura digital que acompaña un activo inmobiliario durante todo su ciclo de vida. Cada etapa muestra su estado real de producto, no la intención.",
+    cycleStages: [
+      ["01", "Terreno", "Adquisición, lotificación y comercialización de tierra.", "implemented", "Aplicación web"],
+      ["02", "Construcción", "Proyecto, avance de obra, costos y documentos.", "exploration", "Exploración"],
+      ["03", "Propiedad", "Inventario, unidades y entrega del activo construido.", "prototype", "Vista previa"],
+      ["04", "Operación", "Administración, cuotas, servicios y amenidades.", "prototype", "Vista previa"],
+      ["05", "Renta", "Contratos, inquilinos y cobranza recurrente.", "prototype", "Vista previa"],
+      ["06", "Venta", "Comercialización y portales de la propiedad terminada.", "prototype", "Vista previa"],
+    ],
+    cycleBaseTag: "Capa transversal",
+    cycleBase: ["Clientes", "Documentos", "Finanzas", "Comunicación", "Datos"],
     serviceTag: "El ecosistema",
     serviceTitle: "Una plataforma compartida, dos verticales principales.",
     serviceNote: "Lands y Properties comparten organización, sesión, clientes, permisos y servicios de Core. Finanzas es una vista transversal en evolución; Construction permanece como exploración.",
@@ -65,18 +78,31 @@ const text = {
   },
   en: {
     locale: "Español",
-    nav: ["Ecosystem", "How it works", "Principles", "Sign in"],
+    nav: ["The cycle", "Ecosystem", "How it works", "Sign in"],
     contact: "Request a demo",
     access: "Open Own Terra",
     accessPending: "Request access",
-    eyebrow: "Real-estate technology developed in Mexico",
-    title: "An operating system for",
-    accent: "every real-estate asset.",
-    intro: "Own Terra connects inventory, clients, operations, documents, and financial follow-up for teams that sell land or manage properties.",
-    primary: "Choose your solution",
+    eyebrow: "From land to living.",
+    title: "The whole real-estate cycle.",
+    accent: "One single platform.",
+    intro: "From raw land to the finished property. Own Terra connects acquisition, sales, construction, administration, rental, and commercialization in one ecosystem.",
+    primary: "See the full cycle",
     secondary: "Request a demo",
     built: "For teams in",
-    sectors: ["Land sales", "Sales", "Management", "Rentals"],
+    sectors: ["Land subdivision", "Construction", "Management", "Rentals", "Commercialization"],
+    cycleTag: "The full cycle",
+    cycleTitle: "One asset, six moments, one system.",
+    cycleBody: "Own Terra is the digital infrastructure that follows a real-estate asset through its entire life cycle. Each stage shows its real product state, not the intention.",
+    cycleStages: [
+      ["01", "Land", "Acquisition, subdivision, and land sales.", "implemented", "Web application"],
+      ["02", "Construction", "Project, site progress, costs, and documents.", "exploration", "Exploration"],
+      ["03", "Property", "Inventory, units, and handover of the built asset.", "prototype", "Preview"],
+      ["04", "Operations", "Administration, dues, services, and amenities.", "prototype", "Preview"],
+      ["05", "Rental", "Leases, tenants, and recurring collection.", "prototype", "Preview"],
+      ["06", "Sale", "Commercialization and portals for the finished property.", "prototype", "Preview"],
+    ],
+    cycleBaseTag: "Cross-cutting layer",
+    cycleBase: ["Clients", "Documents", "Finance", "Communication", "Data"],
     serviceTag: "The ecosystem",
     serviceTitle: "One shared platform, two main verticals.",
     serviceNote: "Lands and Properties share organization, session, clients, permissions, and Core services. Finance is an evolving cross-platform view; Construction remains exploratory.",
@@ -214,7 +240,7 @@ export default function App() {
           {t.nav.map((item, index) => (
             <a
               key={item}
-              href={["#services", "#work", "#principles", "#client-access"][index]}
+              href={["#ciclo", "#services", "#work", "#client-access"][index]}
               onClick={() => setMenu(false)}
             >
               {item}
@@ -241,7 +267,7 @@ export default function App() {
             <h1 className="lx-coverTitle">{t.title}<em>{t.accent}</em></h1>
             <p className="lx-coverIntro">{t.intro}</p>
             <div className="lx-coverActions">
-              <a className="lx-btn lx-btn--solid" href="#services">{t.primary}<ArrowRight /></a>
+              <a className="lx-btn lx-btn--solid" href="#ciclo">{t.primary}<ArrowRight /></a>
               <a className="lx-btn lx-btn--line" href="#contact">{t.secondary}</a>
             </div>
           </div>
@@ -258,6 +284,36 @@ export default function App() {
             <p className="lx-openerText">
               {t.serviceTitle} <b>{t.serviceNote}</b>
             </p>
+          </div>
+        </section>
+
+        {/* El ciclo completo: de la tierra a la vida. Cada etapa declara su
+            estado real, para no presentar como disponible lo que aún no lo es. */}
+        <section className="lx-cycle lx-bleed" id="ciclo">
+          <div className="lx-gutter reveal">
+            <div className="lx-cycleHead">
+              <div>
+                <small className="lx-label">{t.cycleTag}</small>
+                <h2>{t.cycleTitle}</h2>
+              </div>
+              <p>{t.cycleBody}</p>
+            </div>
+
+            <div className="lx-cycleTrack">
+              {t.cycleStages.map(([num, name, desc, state, stateLabel]) => (
+                <article key={num} className={`lx-stage is-${state}`}>
+                  <span className="lx-stageNum">{num}</span>
+                  <h3 className="lx-stageName">{name}</h3>
+                  <p className="lx-stageDesc">{desc}</p>
+                  <span className="lx-stageState">{stateLabel}</span>
+                </article>
+              ))}
+            </div>
+
+            <div className="lx-cycleBase">
+              <small>{t.cycleBaseTag}</small>
+              {t.cycleBase.map((item) => <span key={item}>{item}</span>)}
+            </div>
           </div>
         </section>
 
