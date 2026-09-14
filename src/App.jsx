@@ -28,6 +28,13 @@ const text = {
       ["05", "Renta", "Contratos, inquilinos y cobranza recurrente.", "prototype", "Vista previa"],
       ["06", "Venta", "Comercialización y portales de la propiedad terminada.", "prototype", "Vista previa"],
     ],
+    mobileTag: "En el teléfono",
+    mobileTitle: "La operación no se queda en la oficina.",
+    mobileBody: "El asesor revisa inventario, agenda y clientes desde el mismo ecosistema, con la sesión y los permisos de su organización. Lo que cambia en campo ya está en el escritorio.",
+    mobileState: "Cliente móvil en beta",
+    mobileNote: "La aplicación móvil acompaña a Lands y todavía no está publicada en App Store ni en Google Play. El acceso se coordina con tu organización.",
+    mobileCta: "Solicitar acceso a la beta",
+    mobileShots: ["Inicio y pendientes del día", "Track de lotes", "Proyectos y planos"],
     cycleBaseTag: "Capa transversal",
     cycleBase: ["Clientes", "Documentos", "Finanzas", "Comunicación", "Datos"],
     serviceTag: "El ecosistema",
@@ -101,6 +108,13 @@ const text = {
       ["05", "Rental", "Leases, tenants, and recurring collection.", "prototype", "Preview"],
       ["06", "Sale", "Commercialization and portals for the finished property.", "prototype", "Preview"],
     ],
+    mobileTag: "On the phone",
+    mobileTitle: "The operation does not stay at the office.",
+    mobileBody: "Advisors check inventory, calendar, and clients from the same ecosystem, with their organization's session and permissions. What changes in the field is already on the desktop.",
+    mobileState: "Mobile client in beta",
+    mobileNote: "The mobile app accompanies Lands and is not published on the App Store or Google Play yet. Access is arranged with your organization.",
+    mobileCta: "Request beta access",
+    mobileShots: ["Home and daily tasks", "Lot tracking", "Projects and site plans"],
     cycleBaseTag: "Cross-cutting layer",
     cycleBase: ["Clients", "Documents", "Finance", "Communication", "Data"],
     serviceTag: "The ecosystem",
@@ -313,6 +327,32 @@ export default function App() {
             <div className="lx-cycleBase">
               <small>{t.cycleBaseTag}</small>
               {t.cycleBase.map((item) => <span key={item}>{item}</span>)}
+            </div>
+          </div>
+        </section>
+
+        {/* La app móvil: capturas reales del simulador. Sin insignias de tienda,
+            porque todavía no está publicada. */}
+        <section className="lx-mobile lx-bleed" id="movil">
+          <div className="lx-mobileGrid lx-gutter reveal">
+            <div className="lx-mobileCopy">
+              <small className="lx-label">{t.mobileTag}</small>
+              <h2>{t.mobileTitle}</h2>
+              <p>{t.mobileBody}</p>
+              <span className="lx-mobileState">{t.mobileState}</span>
+              <p className="lx-mobileNote">{t.mobileNote}</p>
+              <div className="lx-mobileActions">
+                <a className="lx-btn lx-btn--solid" href="#contact">{t.mobileCta}<ArrowRight /></a>
+              </div>
+            </div>
+            <div className="lx-phones">
+              {[["/app/mobile-proyectos.jpg", 2], ["/app/mobile-inicio.jpg", 0], ["/app/mobile-lotes.jpg", 1]].map(([src, i]) => (
+                <div key={src} className="lx-phone">
+                  <div className="lx-phoneScreen">
+                    <img src={asset(src)} alt={t.mobileShots[i]} loading="lazy" />
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </section>

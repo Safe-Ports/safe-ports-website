@@ -765,3 +765,121 @@
   .lx-processActions { align-items: stretch; flex-direction: column; gap: 20px; }
   .lx-processActions .lx-btn { width: 100%; }
 }
+
+/* ---------- La operación desde el teléfono ---------- */
+
+/*
+  Marcos de teléfono dibujados en CSS: evita depender de imágenes de dispositivo
+  y se adapta solo. La proporción es la del iPhone 15 Pro (1179x2556).
+  Sin insignias de tienda: la app todavía no está publicada.
+*/
+
+.lx-mobile {
+  background: var(--ink);
+  color: var(--stone-0);
+  padding-block: clamp(80px, 12vh, 150px);
+  overflow: hidden;
+}
+
+.lx-mobileGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(36px, 5vw, 80px);
+  align-items: center;
+}
+
+.lx-mobileCopy .lx-label { color: var(--bronze); }
+
+.lx-mobileCopy h2 {
+  margin: 20px 0 0;
+  max-width: 14ch;
+  font: 300 clamp(34px, 4.6vw, 64px)/1.06 var(--serif);
+  letter-spacing: -0.025em;
+  color: var(--stone-0);
+  text-wrap: balance;
+}
+
+.lx-mobileCopy > p {
+  margin: 26px 0 0;
+  max-width: 46ch;
+  font-size: 15.5px;
+  line-height: 1.85;
+  font-weight: 300;
+  color: rgba(253, 251, 247, 0.72);
+}
+
+.lx-mobileState {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 30px;
+  padding: 10px 0;
+  font: 500 10.5px/1 var(--sans);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #c7a46a;
+}
+
+.lx-mobileState::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+
+.lx-mobileNote {
+  margin: 18px 0 0;
+  max-width: 44ch;
+  font-size: 13.5px;
+  line-height: 1.75;
+  font-weight: 300;
+  color: rgba(253, 251, 247, 0.55);
+}
+
+.lx-mobileActions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 26px; margin-top: 32px; }
+
+.lx-mobile .lx-btn--solid { background: var(--stone-0); color: var(--ink); }
+.lx-mobile .lx-btn--solid:hover { background: #e2a88f; }
+
+/* Trío de teléfonos escalonados. */
+.lx-phones {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(12px, 1.6vw, 26px);
+}
+
+.lx-phone {
+  position: relative;
+  flex: 1 1 0;
+  max-width: 230px;
+  aspect-ratio: 1179 / 2371; /* captura ya recortada de la barra de estado */
+  padding: 7px;
+  border-radius: 34px;
+  background: linear-gradient(160deg, #4a423b, #211d19 40%);
+  box-shadow: 0 40px 90px -40px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(253, 251, 247, 0.08);
+}
+
+/* El central va adelante y un poco más alto: da profundidad sin trucos. */
+.lx-phone:nth-child(2) { transform: translateY(-30px) scale(1.06); z-index: 2; }
+.lx-phone:nth-child(1) { transform: translateY(18px) rotate(-1.5deg); }
+.lx-phone:nth-child(3) { transform: translateY(18px) rotate(1.5deg); }
+
+.lx-phoneScreen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 27px;
+  overflow: hidden;
+  background: var(--stone-1);
+}
+
+.lx-phoneScreen img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+
+
+@media (max-width: 1000px) {
+  .lx-mobileGrid { grid-template-columns: minmax(0, 1fr); gap: 48px; }
+  .lx-phones { max-width: 620px; margin-inline: auto; }
+}
+
+@media (max-width: 620px) {
+  .lx-phone:nth-child(1),
+  .lx-phone:nth-child(3) { display: none; }
+  .lx-phone:nth-child(2) { transform: none; max-width: 260px; }
+  .lx-mobileActions .lx-btn { width: 100%; }
+}
