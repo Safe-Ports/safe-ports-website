@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { ArrowRight, Check, LogIn, Menu, ShieldCheck, X } from "lucide-react";
 import { getPublicProduct, publicProducts } from "./data/publicProducts";
+import { asset } from "./lib/url";
 
 const text = {
   es: {
@@ -169,8 +170,8 @@ const text = {
 const Brand = () => (
   <a className="lx-brand" href="#top">
     <span className="lx-brandMark">
-      <img className="lx-markInk" src={`${import.meta.env.BASE_URL}brand/ownterra-mark-ink.png`} alt="" />
-      <img className="lx-markLight" src={`${import.meta.env.BASE_URL}brand/ownterra-mark-light.png`} alt="" />
+      <img className="lx-markInk" src={asset("/brand/ownterra-mark-ink.png")} alt="" />
+      <img className="lx-markLight" src={asset("/brand/ownterra-mark-light.png")} alt="" />
     </span>
     <b>Own Terra</b>
   </a>
@@ -215,7 +216,6 @@ export default function App() {
   const [lang, setLang] = useState("es");
   const [menu, setMenu] = useState(false);
   const t = text[lang];
-  const asset = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;
   const configuredAppUrl = import.meta.env.VITE_OWN_TERRA_URL?.trim();
   const navOver = useNavOverCover();
   useReveal();
@@ -366,7 +366,7 @@ export default function App() {
             <article key={product.key} className={`lx-feature status-${product.status} reveal`}>
               <a
                 className="lx-featureMedia"
-                href={product.landing}
+                href={asset(product.landing)}
                 aria-label={`${product.cta[lang]}: ${product.name}`}
               >
                 <video autoPlay muted loop playsInline preload="metadata" poster={asset(product.poster)} aria-hidden="true">
@@ -384,7 +384,7 @@ export default function App() {
                 <div className="lx-tags">
                   {product.tags[lang].map((tag) => <span key={tag}>{tag}</span>)}
                 </div>
-                <a className="lx-link" href={product.landing}>{product.cta[lang]}<ArrowRight /></a>
+                <a className="lx-link" href={asset(product.landing)}>{product.cta[lang]}<ArrowRight /></a>
               </div>
             </article>
           ))}
@@ -417,7 +417,7 @@ export default function App() {
               </ul>
               <div className="lx-processActions">
                 <a className="lx-btn lx-btn--line" href="#contact">{t.build}<ArrowRight /></a>
-                <a className="lx-link" href="/hub.html">{t.discoverCta}<ArrowRight /></a>
+                <a className="lx-link" href={asset("/hub.html")}>{t.discoverCta}<ArrowRight /></a>
               </div>
             </div>
             <div className="lx-processMedia">

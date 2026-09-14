@@ -1,5 +1,6 @@
 import { ArrowLeft, ArrowRight, Check, Layers3, ShieldCheck, Sparkles } from "lucide-react";
 import { getPublicProduct } from "./data/publicProducts";
+import { asset } from "./lib/url";
 
 const productDetails = {
   lands: {
@@ -58,13 +59,11 @@ const productDetails = {
 };
 
 
-const asset = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;
-
 const Brand = () => (
-  <a className="lx-brand" href="/">
+  <a className="lx-brand" href={asset("/")}>
     <span className="lx-brandMark">
-      <img className="lx-markInk" src={`${import.meta.env.BASE_URL}brand/ownterra-mark-ink.png`} alt="" />
-      <img className="lx-markLight" src={`${import.meta.env.BASE_URL}brand/ownterra-mark-light.png`} alt="" />
+      <img className="lx-markInk" src={asset("/brand/ownterra-mark-ink.png")} alt="" />
+      <img className="lx-markLight" src={asset("/brand/ownterra-mark-light.png")} alt="" />
     </span>
     <b>Own Terra</b>
   </a>
@@ -80,7 +79,7 @@ export default function ProductLanding({ productKey }) {
     ? new URL(details.appPath.replace(/^\//, ""), `${appBase.replace(/\/+$/, "")}/`).toString()
     : null;
   const canOpenApp = details.canOpenApp && appUrl;
-  const primaryHref = canOpenApp ? appUrl : "/#contact";
+  const primaryHref = canOpenApp ? appUrl : asset("/#contact");
   const primaryLabel = canOpenApp ? "Abrir aplicación" : "Solicitar demo";
   const external = canOpenApp ? { target: "_blank", rel: "noreferrer" } : {};
 
@@ -89,7 +88,7 @@ export default function ProductLanding({ productKey }) {
       <header className="lx-nav">
         <Brand />
         <nav className="lxp-nav">
-          <a className="lxp-back" href="/hub.html"><ArrowLeft /><span>Ecosistema</span></a>
+          <a className="lxp-back" href={asset("/hub.html")}><ArrowLeft /><span>Ecosistema</span></a>
           <a className="lx-navCta" href={primaryHref} {...external}>{primaryLabel}</a>
         </nav>
       </header>

@@ -58,3 +58,32 @@ test("every public page declares the branded social image", async () => {
     assert.match(html, /name="twitter:image" content="%VITE_SITE_URL%\/og\.png"/);
   }
 });
+
+test("internal links resolve against the deployment base", async () => {
+  // El sitio se publica como project page bajo /safe-ports-website/, así que un
+  // href absoluto apunta a la raíz del dominio y devuelve 404. Toda ruta interna
+  // debe pasar por asset() de src/lib/url.js.
+  for (const file of projectFiles.filter((name) => name.endsWith(".jsx"))) {
+    const source = await readFile(file, "utf8");
+    assert.doesNotMatch(
+      source,
+      /(?:href|src)="\/(?!\/)/,
+      `${file} usa una ruta interna absoluta; envuélvela en asset().`,
+    );
+    assert.doesNotMatch(
+      source,
+      /(?:href|src)=\{(?:product|app|v)\.landing\}/,
+      `${file} enlaza landing sin asset().`,
+    );
+    // Rutas internas en literales sueltos (p. ej. `const href = "/#contact"`),
+    // que no aparecen como atributo y se escapan de la comprobación anterior.
+    const literals = source.match(/"\/(?:#|[a-z0-9-]+\.html)[^"]*"/g) ?? [];
+    for (const literal of literals) {
+      assert.match(
+        source,
+        new RegExp(`asset\\(\\s*${literal.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`),
+        `${file} usa la ruta interna ${literal} sin asset().`,
+      );
+    }
+  }
+});

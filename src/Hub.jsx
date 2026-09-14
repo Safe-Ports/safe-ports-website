@@ -1,13 +1,12 @@
 import { ArrowLeft, ArrowRight, Check } from "lucide-react";
 import { publicProducts } from "./data/publicProducts";
-
-const asset = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;
+import { asset } from "./lib/url";
 
 const Brand = () => (
-  <a className="lx-brand" href="/">
+  <a className="lx-brand" href={asset("/")}>
     <span className="lx-brandMark">
-      <img className="lx-markInk" src={`${import.meta.env.BASE_URL}brand/ownterra-mark-ink.png`} alt="" />
-      <img className="lx-markLight" src={`${import.meta.env.BASE_URL}brand/ownterra-mark-light.png`} alt="" />
+      <img className="lx-markInk" src={asset("/brand/ownterra-mark-ink.png")} alt="" />
+      <img className="lx-markLight" src={asset("/brand/ownterra-mark-light.png")} alt="" />
     </span>
     <b>Own Terra</b>
   </a>
@@ -100,7 +99,7 @@ export default function Hub() {
     <div className="lx-site">
       <header className="lx-nav">
         <Brand />
-        <a className="lxh-back" href="/"><ArrowLeft /><span>Volver al sitio</span></a>
+        <a className="lxh-back" href={asset("/")}><ArrowLeft /><span>Volver al sitio</span></a>
       </header>
 
       <main id="top">
@@ -135,7 +134,7 @@ export default function Hub() {
               </div>
               <div className="lxh-verticals">
                 {verticals.map((v) => (
-                  <a key={v.key} className={`lxh-vert is-${v.status}`} href={v.landing}>
+                  <a key={v.key} className={`lxh-vert is-${v.status}`} href={asset(v.landing)}>
                     <div className="lxh-vertTop">
                       <img src={asset(v.icon)} alt="" />
                       <span className="lxh-vertStatus">{v.statusLabel.es}</span>
@@ -283,7 +282,7 @@ export default function Hub() {
           <div className="lxh-apps">
             {verticals.map((app) => (
               <article key={app.key} className={`lxh-app is-${app.status}`}>
-                <a className="lxh-appMedia" href={app.landing} aria-label={`${app.cta.es}: ${app.name}`}>
+                <a className="lxh-appMedia" href={asset(app.landing)} aria-label={`${app.cta.es}: ${app.name}`}>
                   <video autoPlay muted loop playsInline preload="metadata" poster={asset(app.poster)} aria-hidden="true">
                     <source src={asset(app.video)} type="video/mp4" />
                   </video>
@@ -296,7 +295,7 @@ export default function Hub() {
                   <h3 className="lxh-appName">{app.name}</h3>
                   <p className="lxh-appHandle">{app.handle}</p>
                   <p className="lxh-appDesc">{app.description.es}</p>
-                  <a className="lx-link" href={app.landing}>{app.cta.es}<ArrowRight /></a>
+                  <a className="lx-link" href={asset(app.landing)}>{app.cta.es}<ArrowRight /></a>
                 </div>
               </article>
             ))}
@@ -313,7 +312,7 @@ export default function Hub() {
                 duplicar clientes, equipo ni documentos. Cuéntanos qué necesitas ordenar.
               </p>
             </div>
-            <a className="lx-btn" href="/#contact">Solicitar demo<ArrowRight /></a>
+            <a className="lx-btn" href={asset("/#contact")}>Solicitar demo<ArrowRight /></a>
           </div>
           <div className="lxh-foot">
             <span>Own Terra · Ecosistema operativo para empresas inmobiliarias</span>
