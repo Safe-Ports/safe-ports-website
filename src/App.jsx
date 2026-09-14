@@ -372,7 +372,10 @@ export default function App() {
                   <li key={item}><em>0{index + 1}</em><span>{item}</span></li>
                 ))}
               </ul>
-              <a className="lx-btn lx-btn--line" href="#contact">{t.build}<ArrowRight /></a>
+              <div className="lx-processActions">
+                <a className="lx-btn lx-btn--line" href="#contact">{t.build}<ArrowRight /></a>
+                <a className="lx-link" href="/hub.html">{t.discoverCta}<ArrowRight /></a>
+              </div>
             </div>
             <div className="lx-processMedia">
               {/* No usar la captura del panel general: corresponde a una versión
@@ -380,10 +383,6 @@ export default function App() {
               <div className="lx-processFrame">
                 <img src={asset("/app/fraccionamiento.jpg")} alt="" loading="lazy" />
               </div>
-              <a className="lx-processCard" href="/hub.html">
-                <small>{t.ready}</small>
-                <p>{t.discoverCta}</p>
-              </a>
             </div>
           </div>
         </section>
