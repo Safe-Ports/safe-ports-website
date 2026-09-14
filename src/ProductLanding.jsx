@@ -1,79 +1,192 @@
 import { ArrowLeft, ArrowRight, Check, Layers3, ShieldCheck, Sparkles } from "lucide-react";
+import { getPublicProduct } from "./data/publicProducts";
 
-const products = {
+const productDetails = {
   lands: {
-    name: "OwnTerra Lands", handle: "terra.lands", accent: "#4fe8cd", icon: "/icons/app-lands.png",
     eyebrow: "Operación comercial de terrenos",
     title: "Del plano al contrato, sin perder el control.",
-    intro: "Centraliza desarrollos, lotes, disponibilidad, clientes, contratos y cobranza en un espacio diseñado para equipos que venden tierra.",
-    video: "/videos/own-terra-demo.mp4", poster: "/videos/own-terra-demo-poster.jpg", appPath: "/dashboard",
-    outcomes: ["Inventario actualizado para todo el equipo", "Seguimiento comercial de punta a punta", "Cobranza y documentos ligados a cada operación"],
+    intro: "Conecta fraccionamientos, lotes, disponibilidad, clientes, citas, cotizaciones, contratos, pagos, documentos y reportes para equipos que venden tierra.",
+    appPath: "/dashboard",
+    canOpenApp: true,
+    transparency: "Aplicación web implementada. Los recorridos críticos deben verificarse contra el backend y los permisos de cada organización antes de cada release.",
+    outcomes: ["Inventario organizado por fraccionamiento", "Seguimiento comercial conectado al lote", "Contratos, cobranza y documentos relacionados"],
     features: [
-      ["Inventario visual", "Organiza fraccionamientos y lotes con estatus, superficies, precios y disponibilidad."],
-      ["CRM inmobiliario", "Da seguimiento a prospectos, clientes, visitas y oportunidades desde un mismo flujo."],
-      ["Contratos y cobranza", "Conecta la venta con documentos, anticipos, saldos y próximos pagos."],
+      ["Inventario visual", "Organiza fraccionamientos y lotes con estatus, superficies, precios, disponibilidad y referencia de plano."],
+      ["Clientes y seguimiento", "Relaciona clientes, asesores, citas y oportunidades con el inventario comercial."],
+      ["Contratos y cobranza", "Conecta la operación con contratos, planes de pago, documentos, vencimientos y reportes."],
     ],
-    shots: [["/dashboard/core.png", "Panel operativo"], ["/dashboard/gestion-lotes.png", "Gestión de lotes"], ["/dashboard/clientes.png", "Clientes y seguimiento"], ["/dashboard/contratos.png", "Contratos"]],
+    shots: [["/app/fraccionamiento.jpg", "Inventario y plano del fraccionamiento"], ["/app/track-lotes.jpg", "Seguimiento de lotes y cierres"], ["/app/clientes.jpg", "Clientes conectados al core"], ["/app/dashboard.jpg", "Panel comercial"]],
+    galleryLabel: "EL PRODUCTO EN ACCIÓN",
+    galleryTitle: "Vistas del flujo comercial de Lands.",
+    galleryBody: "Estas capturas muestran interfaces presentes en la aplicación web; la información visible es demostrativa.",
   },
   properties: {
-    name: "OwnTerra Properties", handle: "terra.properties", accent: "#7c9dff", icon: "/icons/app-properties.png",
-    eyebrow: "Administración de inmuebles",
-    title: "Tu portafolio inmobiliario, en un solo lugar.",
-    intro: "Coordina propietarios, propiedades y unidades rentables con una vista clara de la operación y una base lista para crecer.",
-    video: "/videos/ownterra_properties.mp4", poster: "/videos/ownterra-properties-poster.jpg", appPath: "/properties",
-    outcomes: ["Información ordenada por propietario", "Visibilidad por propiedad y unidad", "Operación preparada para múltiples portafolios"],
+    eyebrow: "Administración y operación de inmuebles",
+    title: "Una jerarquía para cada propiedad y sus unidades.",
+    intro: "Properties parte de Organización → Propiedad → Unidad/Espacio para representar una casa, edificio, comunidad, plaza, hotel, oficina, bodega o inmueble mixto.",
+    appPath: "/properties",
+    canOpenApp: false,
+    transparency: "Vista previa funcional. Propietarios, propiedades, unidades, comunidades, rentas, portales y monitoreo usan principalmente datos demo, locales o en memoria; la persistencia backend aún está incompleta.",
+    outcomes: ["Portafolio relacionado con propietarios", "Estados por propiedad y unidad", "Rutas de comunidad, renta y operación"],
     features: [
-      ["Propietarios", "Concentra datos de contacto, portafolio asignado y contexto operativo de cada propietario."],
-      ["Propiedades", "Gestiona inmuebles, imágenes, ubicación y características sin perder su relación jerárquica."],
-      ["Unidades", "Distingue espacios disponibles, rentados, en mantenimiento o archivados dentro de cada propiedad."],
+      ["Portafolio base", "Explora propietarios, propiedades, imágenes y unidades sin perder sus relaciones jerárquicas."],
+      ["Comunidades y rentas", "Previsualiza cargos, servicios, amenidades, publicaciones, prospectos, contratos y operación de hospedaje."],
+      ["Operación por unidad", "Previsualiza estados, tickets, accesos, proveedores, servicios y monitoreo dentro del mismo contexto."],
     ],
-    shots: [["/screenshots/properties-operations.jpg", "Operación centralizada"], ["/screenshots/properties-portfolio.jpg", "Vista del portafolio"]],
+    shots: [["/screenshots/properties-operations.jpg", "Vista previa de operación"], ["/screenshots/properties-portfolio.jpg", "Vista previa del portafolio"]],
+    galleryLabel: "VISTA PREVIA FUNCIONAL",
+    galleryTitle: "Así se organiza la experiencia de Properties.",
+    galleryBody: "Estas pantallas sirven para validar el producto; no representan todavía una integración productiva completa.",
   },
   construction: {
-    name: "OwnTerra Construction", handle: "terra.construct", accent: "#e8bd3f", icon: "/icons/app-construction.png",
-    eyebrow: "Control de obra y presupuesto",
-    title: "Convierte la obra en información accionable.",
-    intro: "Estructura proyectos, cuantifica conceptos y controla presupuestos para que dirección y campo trabajen sobre la misma realidad.",
-    video: "/videos/own-terra-Constructions.mp4", poster: "/videos/own-terra-construction-poster.jpg", appPath: "/construccion",
-    outcomes: ["Presupuestos trazables por concepto", "Avance visible para campo y dirección", "Catálogos reutilizables entre proyectos"],
+    eyebrow: "Exploración de producto",
+    title: "Una dirección de producto aún por validar.",
+    intro: "Construction explora cómo conectar estructura de obra, presupuestos y avance. No es una vertical operativa de Own Terra y no tiene rutas activas en la aplicación autenticada.",
+    canOpenApp: false,
+    transparency: "Concepto exploratorio. El comprador, alcance, reglas operativas, integración y prioridad de implementación todavía requieren aprobación.",
+    outcomes: ["Concepto, no producto activo", "Sin módulo operativo autenticado", "Alcance y prioridad por validar"],
     features: [
-      ["Estructura de obra", "Organiza fases, partidas y conceptos con una WBS clara y controlable."],
-      ["Cuantificación y APU", "Trabaja generadores, insumos, rendimientos y presupuestos híbridos desde el proyecto."],
-      ["Reportes ejecutivos", "Resume costos, avance y utilidad con información lista para revisión y exportación."],
+      ["Estructura de obra", "Hipótesis para organizar proyectos, fases, partidas y conceptos dentro de una futura experiencia."],
+      ["Costos y cuantificación", "Dirección conceptual para generadores, insumos, rendimientos y presupuestos; no es una capacidad disponible."],
+      ["Avance y reportes", "Exploración visual de seguimiento de costos y avance, pendiente de definición y validación."],
     ],
-    shots: [["/screenshots/construction-budget.jpg", "Presupuesto y costos"], ["/screenshots/construction-progress.jpg", "Avance de obra"]],
+    shots: [["/screenshots/construction-budget.jpg", "Concepto de presupuesto"], ["/screenshots/construction-progress.jpg", "Concepto de avance"]],
+    galleryLabel: "CONCEPTO VISUAL",
+    galleryTitle: "Una exploración, no una promesa de disponibilidad.",
+    galleryBody: "Estas imágenes comunican una posible dirección. No corresponden a un módulo activo en la aplicación.",
   },
 };
 
-const Brand = () => <a className="brand" href="/"><span className="mark"><i /></span><b>OWN TERRA</b></a>;
+
+const asset = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;
+
+const Brand = () => (
+  <a className="lx-brand" href="/">
+    <span className="lx-brandMark">
+      <img className="lx-markInk" src={`${import.meta.env.BASE_URL}brand/ownterra-mark-ink.png`} alt="" />
+      <img className="lx-markLight" src={`${import.meta.env.BASE_URL}brand/ownterra-mark-light.png`} alt="" />
+    </span>
+    <b>Own Terra</b>
+  </a>
+);
+
+const featureIcons = [Layers3, Sparkles, ShieldCheck];
 
 export default function ProductLanding({ productKey }) {
-  const product = products[productKey];
-  const appBase = import.meta.env.VITE_OWN_TERRA_URL?.trim() || "https://dev.own-terra.com/";
-  const appUrl = new URL(product.appPath.replace(/^\//, ""), `${appBase.replace(/\/+$/, "")}/`).toString();
+  const product = getPublicProduct(productKey);
+  const details = productDetails[productKey];
+  const appBase = import.meta.env.VITE_OWN_TERRA_URL?.trim();
+  const appUrl = appBase && details.appPath
+    ? new URL(details.appPath.replace(/^\//, ""), `${appBase.replace(/\/+$/, "")}/`).toString()
+    : null;
+  const canOpenApp = details.canOpenApp && appUrl;
+  const primaryHref = canOpenApp ? appUrl : "/#contact";
+  const primaryLabel = canOpenApp ? "Abrir aplicación" : "Solicitar demo";
+  const external = canOpenApp ? { target: "_blank", rel: "noreferrer" } : {};
 
-  return <div className="site productLanding" style={{ "--product": product.accent }}>
-    <header className="nav productNav"><Brand /><nav><a href="/hub.html"><ArrowLeft /> Ecosistema</a><a className="navCta productNavCta" href={appUrl} target="_blank" rel="noreferrer">Abrir aplicación <ArrowRight /></a></nav></header>
-    <main>
-      <section className="productHero shell">
-        <div className="productHeroCopy">
-          <div className="productIdentity"><img src={product.icon} alt="" /><span>{product.handle}</span></div>
-          <p className="productEyebrow">{product.eyebrow}</p>
-          <h1>{product.title}</h1><p className="productIntro">{product.intro}</p>
-          <div className="actions"><a className="button productButton" href={appUrl} target="_blank" rel="noreferrer">Entrar a {product.name.replace("OwnTerra ", "")} <ArrowRight /></a><a className="button ghost" href="#funciones">Conocer funciones</a></div>
-          <div className="productTrust"><ShieldCheck /> Acceso seguro por organización y permisos</div>
-        </div>
-        <div className="productHeroMedia"><video autoPlay muted loop playsInline preload="metadata" poster={product.poster}><source src={product.video} type="video/mp4" /></video></div>
-      </section>
+  return (
+    <div className={`lx-site status-${product.status}`}>
+      <header className="lx-nav">
+        <Brand />
+        <nav className="lxp-nav">
+          <a className="lxp-back" href="/hub.html"><ArrowLeft /><span>Ecosistema</span></a>
+          <a className="lx-navCta" href={primaryHref} {...external}>{primaryLabel}</a>
+        </nav>
+      </header>
 
-      <section className="productOutcomes shell">{product.outcomes.map(item => <div key={item}><Check /><span>{item}</span></div>)}</section>
+      <main>
+        <section className="lxp-hero lx-shell">
+          <div>
+            <div className="lxp-identity">
+              <img src={asset(product.icon)} alt="" />
+              <span>{product.handle}</span>
+            </div>
+            <div className="lxp-statusRow">
+              <p className="lxp-eyebrow">{details.eyebrow}</p>
+              <span className="lxp-status">{product.statusLabel.es}</span>
+            </div>
+            <h1 className="lxp-title">{details.title}</h1>
+            <p className="lxp-intro">{details.intro}</p>
+            <div className="lxp-actions">
+              <a className="lx-btn lx-btn--solid" href={primaryHref} {...external}>
+                {primaryLabel}<ArrowRight />
+              </a>
+              <a className="lx-btn lx-btn--line" href="#funciones">Conocer alcance</a>
+            </div>
+            <p className="lxp-note"><ShieldCheck />{details.transparency}</p>
+          </div>
+          <div className="lxp-media">
+            <video autoPlay muted loop playsInline preload="metadata" poster={asset(product.poster)}>
+              <source src={asset(product.video)} type="video/mp4" />
+            </video>
+          </div>
+        </section>
 
-      <section className="productSection shell" id="funciones"><header><small>CAPACIDADES PRINCIPALES</small><h2>Todo lo esencial para operar con claridad.</h2></header><div className="productFeatureGrid">{product.features.map(([title, body], index) => <article key={title}><span>0{index + 1}</span>{index === 0 ? <Layers3 /> : index === 1 ? <Sparkles /> : <ShieldCheck />}<h3>{title}</h3><p>{body}</p></article>)}</div></section>
+        <section className="lxp-outcomes lx-shell">
+          {details.outcomes.map((item) => (
+            <div key={item} className="lxp-outcome"><Check /><span>{item}</span></div>
+          ))}
+        </section>
 
-      <section className="productSection productScreens shell"><header><small>EL PRODUCTO EN ACCIÓN</small><h2>Una interfaz hecha para el trabajo real.</h2><p>Explora algunas de las vistas que conectan la operación diaria de tu equipo.</p></header><div className={`productGallery gallery${product.shots.length}`}>{product.shots.map(([src, label]) => <figure key={src}><img src={src} alt={`Captura de ${label} en ${product.name}`} loading="lazy" /><figcaption>{label}</figcaption></figure>)}</div></section>
+        <section className="lxp-section lx-shell" id="funciones">
+          <header className="lxp-sectionHead">
+            <small className="lx-label">Alcance actual</small>
+            <h2 className="lx-h2">Qué representa hoy esta experiencia.</h2>
+          </header>
+          <div className="lxp-features">
+            {details.features.map(([title, body], index) => {
+              const Icon = featureIcons[index] ?? ShieldCheck;
+              return (
+                <article key={title} className="lxp-feature">
+                  <span className="lxp-featureNum">0{index + 1}</span>
+                  <Icon />
+                  <h3>{title}</h3>
+                  <p>{body}</p>
+                </article>
+              );
+            })}
+          </div>
+        </section>
 
-      <section className="productFinal shell"><div><img src={product.icon} alt="" /><small>{product.handle}</small><h2>Conoce {product.name} trabajando con tu operación.</h2></div><a className="button productButton" href={appUrl} target="_blank" rel="noreferrer">Abrir aplicación <ArrowRight /></a></section>
-    </main>
-    <footer><Brand /><span>© 2026</span><p>{product.name} · Parte del ecosistema Own Terra</p></footer>
-  </div>;
+        <section className="lxp-section lx-shell">
+          <header className="lxp-sectionHead">
+            <small className="lx-label">{details.galleryLabel}</small>
+            <h2 className="lx-h2">{details.galleryTitle}</h2>
+            <p className="lx-lead">{details.galleryBody}</p>
+          </header>
+          <div className="lxp-gallery">
+            {details.shots.map(([src, label]) => (
+              <figure key={src}>
+                <img src={asset(src)} alt={`${label} de ${product.name}`} loading="lazy" />
+                <figcaption>{label}</figcaption>
+              </figure>
+            ))}
+          </div>
+        </section>
+
+        <section className="lxp-section lx-shell">
+          <div className="lx-band">
+            <div>
+              <div className="lxp-final">
+                <img src={asset(product.icon)} alt="" />
+                <span className="lxp-finalMeta">{product.statusLabel.es} · {product.handle}</span>
+              </div>
+              <h2>
+                {product.status === "implemented"
+                  ? `Conoce ${product.name} con tu operación.`
+                  : `Conversemos sobre ${product.name} y su alcance actual.`}
+              </h2>
+            </div>
+            <a className="lx-btn" href={primaryHref} {...external}>{primaryLabel}<ArrowRight /></a>
+          </div>
+        </section>
+      </main>
+
+      <footer className="lx-footer">
+        <Brand />
+        <span>© 2026</span>
+        <p>{product.name} · {product.statusLabel.es} en Own Terra</p>
+      </footer>
+    </div>
+  );
 }

@@ -1,0 +1,381 @@
+/*
+  Hub del ecosistema: explica cómo opera Own Terra y cómo se conecta todo.
+
+  Depende de `luxury.css` para tokens, tipografía, botones, navegación, banda
+  oscura y pie. Aquí solo vive lo propio del hub, con el prefijo `lxh-`.
+*/
+
+/* ---------- Encabezado ---------- */
+
+.lxh-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font: 500 11.5px/1 var(--sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  transition: color 0.25s ease, gap 0.25s ease;
+}
+
+.lxh-back svg { width: 14px; height: 14px; }
+.lxh-back:hover { color: var(--terracotta); gap: 14px; }
+
+.lxh-hero { padding: clamp(64px, 9vh, 108px) 0 clamp(48px, 6vh, 76px); }
+
+.lxh-title {
+  margin: 30px 0 0;
+  max-width: 24ch;
+  font: 300 clamp(40px, 5.6vw, 76px)/1.04 var(--serif);
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.lxh-title em { font-style: italic; color: var(--terracotta); }
+
+.lxh-intro {
+  margin: 28px 0 0;
+  max-width: 58ch;
+  font-size: clamp(16px, 1.5vw, 18.5px);
+  line-height: 1.85;
+  font-weight: 300;
+  color: var(--ink-soft);
+}
+
+/* ---------- Diagrama de la plataforma ---------- */
+
+.lxh-stack { display: grid; gap: 0; }
+
+.lxh-layer {
+  position: relative;
+  padding: 30px clamp(24px, 3vw, 40px);
+  background: var(--stone-0);
+  border: 1px solid var(--rule-soft);
+}
+
+.lxh-layerTag {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.lxh-layerTag small {
+  font: 500 10.5px/1 var(--sans);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--bronze);
+  white-space: nowrap;
+}
+
+.lxh-layerTag span {
+  font-size: 13.5px;
+  line-height: 1.6;
+  font-weight: 300;
+  color: var(--ink-mute);
+}
+
+/* Verticales */
+
+.lxh-verticals { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--rule-soft); }
+
+.lxh-vert {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 26px 24px;
+  background: var(--stone-0);
+  transition: background 0.25s ease;
+}
+
+a.lxh-vert:hover { background: var(--stone-1); }
+
+.lxh-vertTop { display: flex; align-items: center; gap: 12px; }
+
+.lxh-vertTop img { width: 30px; height: 30px; object-fit: contain; opacity: 0.9; }
+
+.lxh-vertName { margin: 0; font: 400 21px/1.2 var(--serif); color: var(--ink); }
+
+.lxh-vertStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: 500 10px/1 var(--sans);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.lxh-vertStatus::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+
+.lxh-vert.is-implemented .lxh-vertStatus { color: var(--sage); }
+.lxh-vert.is-prototype .lxh-vertStatus { color: var(--bronze); }
+.lxh-vert.is-exploration .lxh-vertStatus { color: var(--stone-mute); }
+.lxh-vert.is-exploration { background: var(--stone-1); }
+.lxh-vert.is-exploration img { opacity: 0.55; }
+
+.lxh-vertDesc { margin: 0; font-size: 13.5px; line-height: 1.7; font-weight: 300; color: var(--ink-soft); }
+
+/* Conector entre capas */
+
+.lxh-connector {
+  position: relative;
+  height: 44px;
+  border-inline: 1px solid var(--rule-soft);
+  background: var(--stone-1);
+}
+
+.lxh-connector::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--stone-3);
+}
+
+.lxh-connector::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  width: 7px;
+  height: 7px;
+  border-right: 1px solid var(--stone-3);
+  border-bottom: 1px solid var(--stone-3);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.lxh-connector.is-up::after { bottom: auto; top: 10px; transform: translateX(-50%) rotate(-135deg); }
+
+/* Capa Core */
+
+.lxh-core { background: var(--ink); border-color: var(--ink); }
+.lxh-core .lxh-layerTag small { color: var(--bronze); }
+.lxh-core .lxh-layerTag span { color: rgba(253, 251, 247, 0.6); }
+
+.lxh-coreName { margin: 0 0 6px; font: 300 clamp(26px, 2.8vw, 36px)/1.15 var(--serif); color: var(--stone-0); }
+
+.lxh-coreLead {
+  margin: 0 0 26px;
+  max-width: 62ch;
+  font-size: 14.5px;
+  line-height: 1.8;
+  font-weight: 300;
+  color: rgba(253, 251, 247, 0.72);
+}
+
+.lxh-coreItems { display: flex; flex-wrap: wrap; gap: 0 26px; }
+
+.lxh-coreItems span {
+  position: relative;
+  font: 400 14.5px/2.1 var(--serif);
+  letter-spacing: 0.05em;
+  color: rgba(253, 251, 247, 0.9);
+}
+
+.lxh-coreItems span + span { padding-left: 26px; }
+
+.lxh-coreItems span + span::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 1px;
+  height: 12px;
+  transform: translateY(-50%);
+  background: rgba(253, 251, 247, 0.25);
+}
+
+/* Finanzas, capa transversal */
+
+.lxh-cross { background: var(--stone-2); border-style: dashed; }
+.lxh-crossRow { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.lxh-crossRow img { width: 28px; height: 28px; object-fit: contain; opacity: 0.85; }
+.lxh-crossRow h3 { margin: 0; font: 400 19px/1.2 var(--serif); color: var(--ink); }
+.lxh-crossRow p { margin: 0; flex: 1 1 340px; font-size: 13.5px; line-height: 1.7; font-weight: 300; color: var(--ink-soft); }
+
+/* ---------- Jerarquías ---------- */
+
+.lxh-hier { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--rule-soft); }
+
+.lxh-hierCol { padding: 40px 36px; background: var(--stone-0); }
+
+.lxh-hierCol h3 { margin: 18px 0 10px; font: 400 24px/1.2 var(--serif); color: var(--ink); }
+
+.lxh-hierCol > p { margin: 0 0 26px; font-size: 14.5px; line-height: 1.8; font-weight: 300; color: var(--ink-soft); }
+
+.lxh-chain { display: flex; flex-direction: column; gap: 0; }
+
+.lxh-chainStep {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 14px 0;
+  border-top: 1px solid var(--rule-soft);
+}
+
+.lxh-chainStep:last-child { border-bottom: 1px solid var(--rule-soft); }
+
+.lxh-chainStep b {
+  font: 400 16px/1.4 var(--serif);
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  font-weight: 400;
+}
+
+.lxh-chainStep small {
+  font: 500 10px/1 var(--sans);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--stone-3);
+  min-width: 22px;
+}
+
+.lxh-chainStep span { margin-left: auto; font-size: 13px; line-height: 1.6; font-weight: 300; color: var(--ink-mute); text-align: right; }
+
+/* ---------- Cadena de operación ---------- */
+
+.lxh-flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: var(--rule-soft); }
+
+.lxh-flowStep { position: relative; padding: 34px 24px 30px; background: var(--stone-1); }
+
+.lxh-flowNum {
+  display: block;
+  font: 300 30px/1 var(--serif);
+  color: var(--stone-3);
+  margin-bottom: 18px;
+}
+
+.lxh-flowStep h3 { margin: 0 0 10px; font: 400 19px/1.2 var(--serif); color: var(--ink); }
+
+.lxh-flowStep p { margin: 0; font-size: 13.5px; line-height: 1.75; font-weight: 300; color: var(--ink-soft); }
+
+/* ---------- Aislamiento y permisos ---------- */
+
+.lxh-rules { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(36px, 5vw, 80px); align-items: start; }
+
+.lxh-ruleList { list-style: none; margin: 0; padding: 0; }
+
+.lxh-ruleList li {
+  display: flex;
+  gap: 16px;
+  padding: 20px 0;
+  border-top: 1px solid var(--rule-soft);
+  font-size: 14.5px;
+  line-height: 1.75;
+  font-weight: 300;
+  color: var(--ink-soft);
+}
+
+.lxh-ruleList li:last-child { border-bottom: 1px solid var(--rule-soft); }
+.lxh-ruleList svg { width: 16px; height: 16px; flex: none; margin-top: 4px; color: var(--terracotta); }
+
+/* ---------- Leyenda de estados ---------- */
+
+.lxh-legend { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--rule-soft); }
+
+.lxh-legendItem { padding: 32px 28px; background: var(--stone-0); }
+
+.lxh-legendItem h3 {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0 0 14px;
+  font: 500 10.5px/1 var(--sans);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.lxh-legendItem h3::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+
+.lxh-legendItem.is-implemented h3 { color: var(--sage); }
+.lxh-legendItem.is-prototype h3 { color: var(--bronze); }
+.lxh-legendItem.is-exploration h3 { color: var(--stone-mute); }
+
+.lxh-legendItem p { margin: 0; font-size: 13.5px; line-height: 1.8; font-weight: 300; color: var(--ink-soft); }
+
+/* ---------- Tarjetas de aplicación ---------- */
+
+.lxh-apps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+
+.lxh-app {
+  display: flex;
+  flex-direction: column;
+  background: var(--stone-0);
+  border: 1px solid var(--rule-soft);
+  overflow: hidden;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.lxh-app:hover { border-color: var(--stone-3); box-shadow: 0 30px 70px -40px rgba(43, 38, 34, 0.4); }
+
+.lxh-appMedia { position: relative; display: block; height: 176px; background: var(--stone-2); overflow: hidden; }
+
+.lxh-appMedia video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.lxh-appMedia::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(43, 38, 34, 0.05), rgba(43, 38, 34, 0.2));
+}
+
+.lxh-app:hover .lxh-appMedia video { transform: scale(1.04); }
+.lxh-app.is-exploration .lxh-appMedia video { filter: saturate(0.55); }
+
+.lxh-appBody { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding: 28px 26px 30px; flex: 1; }
+
+.lxh-appTop { display: flex; align-items: center; gap: 12px; }
+.lxh-appTop img { width: 30px; height: 30px; object-fit: contain; opacity: 0.9; }
+
+.lxh-appName { margin: 2px 0 0; font: 400 23px/1.2 var(--serif); color: var(--ink); }
+.lxh-appHandle { margin: 0; font: 500 10px/1 var(--sans); letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-mute); }
+.lxh-appDesc { margin: 4px 0 0; font-size: 14px; line-height: 1.75; font-weight: 300; color: var(--ink-soft); flex: 1; }
+
+/* ---------- Pie del hub ---------- */
+
+.lxh-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding-top: 30px;
+  border-top: 1px solid var(--rule);
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--ink-mute);
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 1000px) {
+  .lxh-flow { grid-template-columns: repeat(2, 1fr); }
+  .lxh-apps { grid-template-columns: 1fr; }
+  .lxh-rules { grid-template-columns: 1fr; gap: 32px; }
+}
+
+@media (max-width: 860px) {
+  /* En móvil la flecha basta: el rótulo hacía saltar de línea al logotipo. */
+  .lxh-back span { display: none; }
+
+  .lxh-verticals,
+  .lxh-hier,
+  .lxh-legend,
+  .lxh-flow { grid-template-columns: 1fr; }
+  .lxh-coreItems { gap: 0; flex-direction: column; }
+  .lxh-coreItems span + span { padding-left: 0; }
+  .lxh-coreItems span + span::before { display: none; }
+  .lxh-chainStep span { margin-left: 0; width: 100%; text-align: left; }
+  .lxh-chainStep { flex-wrap: wrap; gap: 6px 14px; }
+}

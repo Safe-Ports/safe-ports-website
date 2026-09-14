@@ -1,25 +1,24 @@
 import {
   ArrowRight,
   BadgeDollarSign,
-  Building2,
+  CalendarDays,
   Check,
   CircleDot,
-  Hammer,
+  FolderLock,
   Home,
   Map,
-  Megaphone,
   Network,
   Users,
 } from "lucide-react";
 import { loginUrl, quickBenefits, trustSignals } from "../data/content.js";
 
 const orbitApps = [
-  { label: "Construcción",    icon: Hammer,         position: "left-[18%]  top-[5%]  w-[220px]" },
-  { label: "Marketing",       icon: Megaphone,      position: "right-[16%] top-[5%]  w-[210px]" },
+  { label: "Own Terra Core",  icon: Network,        position: "left-[18%]  top-[5%]  w-[220px]" },
+  { label: "Agenda",          icon: CalendarDays,   position: "right-[16%] top-[5%]  w-[210px]" },
   { label: "Own Terra Lands", icon: Map,            position: "left-[0%]   top-[26%] w-[230px]" },
-  { label: "Neighborhoods",   icon: Building2,      position: "right-[0%]  top-[26%] w-[235px]" },
-  { label: "CRM",             icon: Users,          position: "right-[5%]  top-[57%] w-[180px]" },
-  { label: "Properties",      icon: Home,           position: "left-[4%]   top-[59%] w-[180px]" },
+  { label: "Properties · preview", icon: Home,      position: "right-[0%]  top-[26%] w-[235px]" },
+  { label: "Clientes",        icon: Users,          position: "right-[5%]  top-[57%] w-[180px]" },
+  { label: "Vault",           icon: FolderLock,     position: "left-[4%]   top-[59%] w-[180px]" },
   { label: "Finanzas",        icon: BadgeDollarSign, position: "left-[28%] top-[61%] w-[190px]" },
 ];
 
@@ -54,7 +53,7 @@ function EcosystemVisual() {
           </div>
         </div>
         <div className="mt-5 grid grid-cols-3 gap-2.5">
-          {["Ventas", "Obra", "Pagos", "Docs", "CRM", "BI"].map((item) => (
+          {["Organización", "Equipo", "Clientes", "Agenda", "Docs", "Permisos"].map((item) => (
             <span key={item} className="rounded-full border border-white/10 bg-white/[0.08] px-2 py-2 text-center text-xs font-medium text-white/[0.78]">
               {item}
             </span>
@@ -89,7 +88,7 @@ function EcosystemVisual() {
           <CircleDot className="text-terra-500" size={17} />
         </div>
         <div className="mt-4 space-y-3">
-          {["Contrato enviado", "Pago conciliado", "Lead asignado"].map((item, index) => (
+          {["Contrato enviado", "Pago por cobrar", "Cita asignada"].map((item, index) => (
             <div key={item} className="flex items-center gap-3">
               <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-terra-50 text-terra-700">
                 <Check size={14} />
@@ -107,6 +106,8 @@ function EcosystemVisual() {
 }
 
 export default function Hero() {
+  const hasLogin = loginUrl !== "#contacto";
+
   return (
     <section id="inicio" className="relative overflow-hidden pt-28 sm:pt-32">
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_70%_8%,rgba(61,147,99,0.16),transparent_30%),linear-gradient(180deg,#f7fbf8_0%,#ffffff_45%,#ffffff_100%)]" />
@@ -121,12 +122,12 @@ export default function Hero() {
           </h1>
 
           <p className="mt-6 max-w-xl text-lg leading-8 text-graphite-600 sm:text-xl">
-            Una plataforma que conecta todo tu equipo, clientes y operación en tiempo real.
+            Una plataforma que conecta organización, equipo, clientes, inventario y documentos con las aplicaciones habilitadas.
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <a href={loginUrl} className="login-button min-h-12 px-6">
-              Ingresar al Sistema
+              {hasLogin ? "Ingresar al sistema" : "Solicitar acceso"}
               <ArrowRight size={18} />
             </a>
             <a href="#contacto" className="secondary-button min-h-12 px-6">

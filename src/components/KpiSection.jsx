@@ -24,13 +24,13 @@ export default function KpiSection() {
       <div className="section-shell">
         <div className="grid gap-6 lg:grid-cols-[0.75fr_1.25fr] lg:items-end">
           <div>
-            <p className="section-eyebrow">KPIs</p>
-            <h2 className="section-title">Métricas pensadas para escala empresarial.</h2>
+            <p className="section-eyebrow">Arquitectura</p>
+            <h2 className="section-title">Hechos del ecosistema, sin métricas inventadas.</h2>
           </div>
           <p className="section-copy mt-0">
-            Own Terra está diseñado para organizaciones que necesitan controlar
-            grandes volúmenes de propiedades, clientes, contratos y procesos sin
-            perder velocidad operativa.
+            Own Terra comparte identidad y contexto entre sus verticales, y
+            comunica por separado lo implementado, lo que está en vista previa
+            y lo que continúa como exploración.
           </p>
         </div>
 

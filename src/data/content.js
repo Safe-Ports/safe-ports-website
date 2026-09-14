@@ -1,10 +1,7 @@
 import {
   BadgeDollarSign,
   BarChart3,
-  Blocks,
   BriefcaseBusiness,
-  Building2,
-  ChartNoAxesCombined,
   CheckCircle2,
   ClipboardCheck,
   FileSignature,
@@ -13,12 +10,9 @@ import {
   Landmark,
   LineChart,
   Map,
-  Megaphone,
   Network,
   ShieldCheck,
-  Sparkles,
   Users,
-  Workflow,
 } from "lucide-react";
 
 export const navItems = [
@@ -28,76 +22,56 @@ export const navItems = [
   { label: "Contacto", href: "#contacto" },
 ];
 
-export const loginUrl = "https://ownterra-app-dev.pages.dev/";
+export const loginUrl = import.meta.env.VITE_OWN_TERRA_URL?.trim() || "#contacto";
 
 export const quickBenefits = [
-  "CRM inmobiliario",
-  "Contratos digitales",
-  "Control financiero",
+  "Una organización",
+  "Permisos por aplicación",
+  "Contexto compartido",
 ];
 
 export const ecosystemApps = [
   {
+    name: "Own Terra Core",
+    category: "Plataforma compartida",
+    description: "Organización, sesión, equipo, clientes, agenda, formularios, documentos y permisos compartidos.",
+    icon: Network,
+    statusLabel: "Core compartido",
+  },
+  {
     name: "Own Terra Lands",
-    category: "Lotificaciones",
-    description: "Administración de lotificaciones, terrenos, disponibilidad, etapas y estatus comerciales.",
+    category: "Aplicación web",
+    description: "Fraccionamientos, planos, lotes, clientes, contratos, cobranza, documentos y reportes para equipos que venden tierra.",
     icon: Map,
-  },
-  {
-    name: "Own Terra Neighborhoods",
-    category: "Comunidades",
-    description: "Gestión de condominios, fraccionamientos, residentes, cuotas y operación comunitaria.",
-    icon: Building2,
-    comingSoon: true,
-  },
-  {
-    name: "CRM",
-    category: "Comercial",
-    description: "Directorio de clientes con pipeline de etapas, historial de contacto, citas y estado de cuenta.",
-    icon: Users,
-  },
-  {
-    name: "Finanzas",
-    category: "Seguimiento",
-    description: "Registro de transacciones, seguimiento de vencimientos, alertas de pago y control financiero por proyecto.",
-    icon: BadgeDollarSign,
-  },
-  {
-    name: "Analytics",
-    category: "Inteligencia",
-    description: "Reportes de ventas, comisiones, cobranza e inventario con datos en tiempo real por organización.",
-    icon: ChartNoAxesCombined,
+    statusLabel: "Aplicación web",
   },
   {
     name: "Own Terra Properties",
-    category: "Propiedades",
-    description: "Gestión de propiedades, rentas, contratos, mantenimiento e inventario inmobiliario.",
+    category: "Vista previa funcional",
+    description: "Portafolio, propietarios, propiedades, unidades, comunidades, rentas y operación con datos principalmente demo o locales.",
     icon: Home,
-    comingSoon: true,
-    finalStage: true,
+    statusLabel: "Vista previa funcional",
   },
   {
-    name: "Construcción",
-    category: "Obra",
-    description: "Seguimiento de obras, avance físico, tareas, responsables y proyectos en ejecución.",
+    name: "Finanzas",
+    category: "Vista transversal",
+    description: "UI en evolución para ingresos, egresos, cobranza, cuentas y reportes; las reglas contables aún requieren validación.",
+    icon: BadgeDollarSign,
+    statusLabel: "En evolución",
+  },
+  {
+    name: "Own Terra Construction",
+    category: "Exploración",
+    description: "Concepto sin módulo operativo ni rutas activas dentro de la aplicación autenticada.",
     icon: Hammer,
-    comingSoon: true,
-    finalStage: true,
-  },
-  {
-    name: "Marketing",
-    category: "Crecimiento",
-    description: "Gestión de campañas inmobiliarias, canales, leads y rendimiento comercial.",
-    icon: Megaphone,
-    comingSoon: true,
-    finalStage: true,
+    statusLabel: "Exploración",
   },
 ];
 
 export const benefits = [
   {
     title: "Operación centralizada",
-    description: "Toda la información crítica del negocio vive en una sola fuente de verdad, sin hojas de cálculo ni sistemas aislados.",
+    description: "Core conecta organización, identidad, equipo, clientes, agenda y documentos con las verticales habilitadas.",
     icon: Network,
   },
   {
@@ -166,10 +140,10 @@ export const dashboardTabs = [
 ];
 
 export const kpis = [
-  { label: "propiedades administradas", value: 10000, prefix: "+", suffix: "" },
-  { label: "proyectos inmobiliarios", value: 500, prefix: "+", suffix: "" },
-  { label: "organizaciones conectadas", value: 50, prefix: "+", suffix: "" },
-  { label: "disponibilidad operativa", value: 99.9, prefix: "", suffix: "%" },
+  { label: "sesión y organización compartidas", value: 1, prefix: "", suffix: "" },
+  { label: "verticales principales: Lands y Properties", value: 2, prefix: "", suffix: "" },
+  { label: "niveles públicos: aplicación, vista previa y exploración", value: 3, prefix: "", suffix: "" },
+  { label: "niveles en Properties: organización, propiedad y unidad", value: 3, prefix: "", suffix: "" },
 ];
 
 export const trustSignals = [
@@ -177,5 +151,3 @@ export const trustSignals = [
   { label: "Operación trazable", icon: ClipboardCheck },
   { label: "Decisiones inteligentes", icon: CheckCircle2 },
 ];
-
-

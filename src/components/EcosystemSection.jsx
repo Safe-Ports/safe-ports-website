@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronDown, Clock, Rocket } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { ecosystemApps } from "../data/content.js";
 
 const VISIBLE_DEFAULT = 4;
@@ -25,36 +25,18 @@ export default function EcosystemSection() {
           {visibleApps.map((app) => {
             const Icon = app.icon;
             return (
-              <article key={app.name} className={`surface-card group min-h-[260px] p-6 ${app.comingSoon ? "opacity-75" : ""}`}>
+              <article key={app.name} className="surface-card group min-h-[260px] p-6">
                 <div className="flex items-start justify-between gap-4">
-                  <span className={`grid h-12 w-12 place-items-center rounded-2xl transition duration-300 ${app.comingSoon ? "bg-graphite-100 text-graphite-400" : "bg-terra-50 text-terra-700 group-hover:bg-terra-950 group-hover:text-white"}`}>
+                  <span className="grid h-12 w-12 place-items-center rounded-2xl bg-terra-50 text-terra-700 transition duration-300 group-hover:bg-terra-950 group-hover:text-white">
                     <Icon size={22} />
                   </span>
-                  {app.finalStage ? (
-                    <span className="inline-flex items-center gap-1.5 rounded-full border border-terra-200 bg-terra-50 px-3 py-1 text-xs font-semibold text-terra-700">
-                      <Rocket size={11} />
-                      Lanzamiento próximo
-                    </span>
-                  ) : app.comingSoon ? (
-                    <span className="inline-flex items-center gap-1.5 rounded-full border border-graphite-200 bg-graphite-50 px-3 py-1 text-xs font-semibold text-graphite-500">
-                      <Clock size={11} />
-                      Próximamente
-                    </span>
-                  ) : (
-                    <span className="rounded-full border border-graphite-200 px-3 py-1 text-xs font-semibold text-graphite-500">
-                      {app.category}
-                    </span>
-                  )}
+                  <span className="rounded-full border border-graphite-200 px-3 py-1 text-xs font-semibold text-graphite-500">{app.statusLabel}</span>
                 </div>
 
                 <h3 className="mt-7 text-xl font-semibold tracking-[-0.01em] text-graphite-950">{app.name}</h3>
                 <p className="mt-3 text-sm leading-7 text-graphite-600">{app.description}</p>
 
-                {!app.comingSoon && (
-                  <div className="mt-7 h-[1px] w-full overflow-hidden bg-graphite-100">
-                    <div className="h-full w-1/2 bg-gradient-to-r from-transparent via-terra-500 to-transparent opacity-0 transition duration-300 group-hover:animate-scan group-hover:opacity-100" />
-                  </div>
-                )}
+                <div className="mt-7 h-[1px] w-full overflow-hidden bg-graphite-100"><div className="h-full w-1/2 bg-gradient-to-r from-transparent via-terra-500 to-transparent opacity-0 transition duration-300 group-hover:animate-scan group-hover:opacity-100" /></div>
               </article>
             );
           })}
