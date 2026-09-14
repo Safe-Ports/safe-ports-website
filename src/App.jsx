@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ArrowRight, Check, LogIn, Menu, ShieldCheck, X } from "lucide-react";
-import { publicProducts } from "./data/publicProducts";
+import { getPublicProduct, publicProducts } from "./data/publicProducts";
 
 const text = {
   es: {
@@ -21,12 +21,12 @@ const text = {
     cycleTitle: "Un activo, seis momentos, un solo sistema.",
     cycleBody: "Own Terra es la infraestructura digital que acompaña un activo inmobiliario durante todo su ciclo de vida. Cada etapa muestra su estado real de producto, no la intención.",
     cycleStages: [
-      ["01", "Terreno", "Adquisición, lotificación y comercialización de tierra.", "implemented", "Aplicación web"],
-      ["02", "Construcción", "Proyecto, avance de obra, costos y documentos.", "exploration", "Exploración"],
-      ["03", "Propiedad", "Inventario, unidades y entrega del activo construido.", "prototype", "Vista previa"],
-      ["04", "Operación", "Administración, cuotas, servicios y amenidades.", "prototype", "Vista previa"],
-      ["05", "Renta", "Contratos, inquilinos y cobranza recurrente.", "prototype", "Vista previa"],
-      ["06", "Venta", "Comercialización y portales de la propiedad terminada.", "prototype", "Vista previa"],
+      ["01", "Terreno", "Adquisición, lotificación y comercialización de tierra.", "lands"],
+      ["02", "Construcción", "Proyecto, avance de obra, costos y documentos.", "construction"],
+      ["03", "Propiedad", "Inventario, unidades y entrega del activo construido.", "properties"],
+      ["04", "Operación", "Administración, cuotas, servicios y amenidades.", "properties"],
+      ["05", "Renta", "Contratos, inquilinos y cobranza recurrente.", "properties"],
+      ["06", "Venta", "Comercialización y portales de la propiedad terminada.", "properties"],
     ],
     mobileTag: "En el teléfono",
     mobileTitle: "La operación no se queda en la oficina.",
@@ -101,12 +101,12 @@ const text = {
     cycleTitle: "One asset, six moments, one system.",
     cycleBody: "Own Terra is the digital infrastructure that follows a real-estate asset through its entire life cycle. Each stage shows its real product state, not the intention.",
     cycleStages: [
-      ["01", "Land", "Acquisition, subdivision, and land sales.", "implemented", "Web application"],
-      ["02", "Construction", "Project, site progress, costs, and documents.", "exploration", "Exploration"],
-      ["03", "Property", "Inventory, units, and handover of the built asset.", "prototype", "Preview"],
-      ["04", "Operations", "Administration, dues, services, and amenities.", "prototype", "Preview"],
-      ["05", "Rental", "Leases, tenants, and recurring collection.", "prototype", "Preview"],
-      ["06", "Sale", "Commercialization and portals for the finished property.", "prototype", "Preview"],
+      ["01", "Land", "Acquisition, subdivision, and land sales.", "lands"],
+      ["02", "Construction", "Project, site progress, costs, and documents.", "construction"],
+      ["03", "Property", "Inventory, units, and handover of the built asset.", "properties"],
+      ["04", "Operations", "Administration, dues, services, and amenities.", "properties"],
+      ["05", "Rental", "Leases, tenants, and recurring collection.", "properties"],
+      ["06", "Sale", "Commercialization and portals for the finished property.", "properties"],
     ],
     mobileTag: "On the phone",
     mobileTitle: "The operation does not stay at the office.",
@@ -314,14 +314,17 @@ export default function App() {
             </div>
 
             <div className="lx-cycleTrack">
-              {t.cycleStages.map(([num, name, desc, state, stateLabel]) => (
-                <article key={num} className={`lx-stage is-${state}`}>
-                  <span className="lx-stageNum">{num}</span>
-                  <h3 className="lx-stageName">{name}</h3>
-                  <p className="lx-stageDesc">{desc}</p>
-                  <span className="lx-stageState">{stateLabel}</span>
-                </article>
-              ))}
+              {t.cycleStages.map(([num, name, desc, productKey]) => {
+                const product = getPublicProduct(productKey);
+                return (
+                  <article key={num} className={`lx-stage is-${product.status}`}>
+                    <span className="lx-stageNum">{num}</span>
+                    <h3 className="lx-stageName">{name}</h3>
+                    <p className="lx-stageDesc">{desc}</p>
+                    <span className="lx-stageState">{product.statusShort[lang]}</span>
+                  </article>
+                );
+              })}
             </div>
 
             <div className="lx-cycleBase">
