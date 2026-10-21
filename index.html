@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Own Terra se mudó</title>
+<link rel="canonical" href="https://safe-ports.github.io/safe-ports-ownterra-website/">
+<script>
+  // El sitio cambió de dirección: conserva la página, la query y el ancla.
+  // Este mismo archivo se publica como 404.html, así que cualquier ruta vieja
+  // (/safe-ports-website/aviso-privacidad.html#arco) llega a su equivalente.
+  (function () {
+    var OLD = "/safe-ports-website";
+    var NEW = "https://safe-ports.github.io/safe-ports-ownterra-website";
+    var path = location.pathname.indexOf(OLD) === 0 ? location.pathname.slice(OLD.length) : "/";
+    location.replace(NEW + (path || "/") + location.search + location.hash);
+  })();
+</script>
+<style>body{margin:0;display:grid;place-items:center;min-height:100vh;background:#f4efe7;color:#2b2622;font:16px/1.6 system-ui,sans-serif}a{color:#b0543a}</style>
+</head>
+<body>
+<p>Own Terra ahora está en <a href="https://safe-ports.github.io/safe-ports-ownterra-website/">safe-ports.github.io/safe-ports-ownterra-website</a>.</p>
+</body>
+</html>
